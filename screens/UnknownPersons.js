@@ -17,7 +17,6 @@ const App = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [maxDate, setMaxDate] = useState('')
 
-
     useEffect(() => {
         const today = new Date();
         const formattedToday = today.toISOString().split('T')[0];
