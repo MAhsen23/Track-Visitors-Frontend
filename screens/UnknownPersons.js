@@ -7,10 +7,6 @@ import CalendarPicker from 'react-native-calendar-picker';
 
 const App = (props) => {
 
-
-
-    const [searchImages, setSearchImages] = useState([]);
-
     const [images, setImages] = useState([]);
     const [cameras, setCameras] = useState([])
     const [camera, setCamera] = useState('');
