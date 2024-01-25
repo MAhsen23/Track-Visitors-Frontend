@@ -172,7 +172,7 @@ const App = (props) => {
                 <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[styles.pictures]}>
                     {
                         images.map((item, index) => (
-                            <TouchableOpacity style={{ padding: 5, borderRadius: 5, elevation: 2, marginHorizontal: 5, marginVertical: 5, width: 115, backgroundColor: '#fff', height: 245, alignItems: "center" }} key={item.filename} onPress={() => openModal(index)}>
+                            <TouchableOpacity style={{ padding: 5, borderRadius: 5, elevation: 2, marginHorizontal: 2, marginVertical: 5, width: 115, backgroundColor: '#fff', height: 245, alignItems: "center" }} key={item.filename} onPress={() => openModal(index)}>
                                 <Image
                                     source={{ uri: `${url}/GetDumpImage?path=${item.full_path}` }}
                                     style={{ height: 180, width: 108, borderRadius: 5, resizeMode: 'stretch' }}
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     pictures: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
     },
 
 
