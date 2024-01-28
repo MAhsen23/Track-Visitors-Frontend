@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Text, StyleSheet, Alert, View, Image, Dimensions, Pressable, ScrollView, Modal, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, Alert, View, Image, Dimensions, Pressable, ScrollView, Modal, TouchableOpacity, VirtualizedList } from "react-native";
 import { FontFamily, Color } from "../GlobalStyles";
 import url from '../ApiUrl';
 import SingleValueCusDropdown from '../Custom_Hayo/one_value_picker'
 import CalendarPicker from 'react-native-calendar-picker';
+import { FlatList } from "react-native-gesture-handler";
+
 
 const App = (props) => {
 
@@ -16,6 +18,8 @@ const App = (props) => {
     const [toDate, setToDate] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [maxDate, setMaxDate] = useState('')
+
+    const [isFetching, setIsFetching] = useState(false);
 
     useEffect(() => {
         const today = new Date();
@@ -46,11 +50,12 @@ const App = (props) => {
     const fetchDumpImagesList = async (start_date, end_date) => {
         try {
             console.log(start_date, end_date)
-            const response = await fetch(`${url}GetDumpImagesList?camera=${camera}&start_date=${formatDate(start_date)}&end_date=${formatDate(end_date)}`);
+            setIsFetching(true);
+            const response = await fetch(`${url}GetDumpImages?camera=${camera}&start_date=${formatDate(start_date)}&end_date=${formatDate(end_date)}`);
             if (response.ok) {
                 const data = await response.json();
-                console.log(data)
                 setImages(data.images);
+                setIsFetching(false);
             } else {
                 throw new Error('Failed to fetch images list.');
             }
@@ -118,7 +123,7 @@ const App = (props) => {
                     </Text>
                     <Image source={require('../assets/daterange1.png')} style={{ width: 25, height: 25, tintColor: 'grey', opacity: 0.8 }} />
                 </Pressable>
-                <Pressable onPress={() => {
+                <Pressable disabled={isFetching} onPress={() => {
                     if (!fromDate || !toDate) {
                         Alert.alert('Error', 'Please fill in all the fields.');
                         return;
@@ -126,8 +131,8 @@ const App = (props) => {
                     else {
                         fetchDumpImagesList(fromDate, toDate)
                     }
-                }} style={{ marginBottom: 30, flexDirection: 'row', backgroundColor: Color.deepskyblue, width: '40%', height: 45, justifyContent: "center", alignItems: 'center', borderRadius: 40, }}>
-                    <Text style={{ fontFamily: FontFamily.poppinsMedium, fontSize: 15, color: '#fff' }}>Fetch</Text>
+                }} style={{ marginBottom: 30, flexDirection: 'row', backgroundColor: Color.deepskyblue, width: '50%', height: 45, justifyContent: "center", alignItems: 'center', borderRadius: 40, }}>
+                    <Text style={{ fontFamily: FontFamily.poppinsMedium, fontSize: 15, color: '#fff' }}>{isFetching ? 'Fetching...' : 'Fetch'}</Text>
                     <Image source={require('../assets/synchronize.png')} style={{ width: 20, height: 20, marginBottom: 2, marginLeft: 5, }} />
                 </Pressable>
                 <Modal
@@ -169,22 +174,31 @@ const App = (props) => {
                         </View>
                     </View>
                 </Modal>
-                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[styles.pictures]}>
-                    {
-                        images.map((item, index) => (
-                            <TouchableOpacity style={{ padding: 5, borderRadius: 5, elevation: 2, marginHorizontal: 2, marginVertical: 5, width: 115, backgroundColor: '#fff', height: 245, alignItems: "center" }} key={item.filename} onPress={() => openModal(index)}>
-                                <Image
-                                    source={{ uri: `${url}/GetDumpImage?path=${item.full_path}` }}
-                                    style={{ height: 180, width: 108, borderRadius: 5, resizeMode: 'stretch' }}
-                                />
-                                <View style={{ marginTop: 5, }}>
-                                    <Text style={{ fontFamily: FontFamily.poppinsMedium, textAlign: "center" }}>{item.date}</Text>
-                                    <Text style={{ fontFamily: FontFamily.poppinsRegular, textAlign: "center" }}>{item.time}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        ))
-                    }
-                </ScrollView>
+                <VirtualizedList
+                    contentContainerStyle={{ justifyContent: 'space-between', flexDirection: 'row', flexWrap: 'wrap' }}
+                    data={images}
+                    initialNumToRender={8}
+                    renderItem={({ item }) => (
+
+                        <TouchableOpacity style={{ padding: 5, borderRadius: 5, elevation: 2, marginHorizontal: 2, marginVertical: 5, width: 115, backgroundColor: '#fff', height: 245, alignItems: "center" }} key={item.filename} onPress={() => openModal(index)}>
+                            <Image
+                                style={{ height: 180, width: 108, borderRadius: 5, resizeMode: 'stretch' }}
+                                source={{ uri: `data:image/jpeg;base64,${item.image}` }}
+                            />
+                            <View style={{ marginTop: 5, }}>
+                                <Text style={{ fontFamily: FontFamily.poppinsMedium, textAlign: "center" }}>{item.date}</Text>
+                                <Text style={{ fontFamily: FontFamily.poppinsRegular, textAlign: "center" }}>{item.time}</Text>
+                            </View>
+                        </TouchableOpacity>
+
+                    )}
+
+                    keyExtractor={(item, index) => index.toString()}
+                    getItemCount={() => images.length}
+                    getItem={(data, index) => data[index]}
+                    numColumns={3}
+                />
+
                 <Modal
                     animationType="slide"
                     transparent={false}
@@ -194,7 +208,7 @@ const App = (props) => {
                     <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: '#efefef' }}>
                         {images.length > 0 && selectedImageIndex >= 0 && selectedImageIndex < images.length && (
                             <Image
-                                source={{ uri: `${url}/GetDumpImage?path=${images[selectedImageIndex].full_path}` }}
+                                source={{ uri: `${url}GetDumpImage?path=${images[selectedImageIndex].full_path}` }}
                                 style={{ width: '100%', height: '90%', resizeMode: 'contain' }}
                             />
                         )}
