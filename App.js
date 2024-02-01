@@ -33,6 +33,7 @@ import SavedLocations from './screens/SavedLocations';
 import SavedCameras from './screens/SavedCameras';
 import CheckPaths from './screens/CheckPaths';
 import AdjacencyMatrix from './screens/AdjacencyMatrix'
+import RestrictLocation from './screens/RestrictLocation';
 
 const Stack = createNativeStackNavigator();
 
@@ -87,6 +88,7 @@ const App = (props) => {
                 <Stack.Screen name="VisitPossiblePaths" component={VisitPossiblePaths} options={{ headerTitle: 'Destination Paths', headerShown: false }} />
                 <Stack.Screen name="CheckPaths" component={CheckPaths} options={{ headerTitle: 'Paths', headerShown: false }} />
                 <Stack.Screen name="AdjacencyMatrix" component={AdjacencyMatrix} options={{ headerTitle: 'Camera Connections', headerShown: false }} />
+                <Stack.Screen name="RestrictLocation" component={RestrictLocation} options={{ headerTitle: 'Restrict Location', headerShown: false }} />
 
             </Stack.Navigator>
         </NavigationContainer >

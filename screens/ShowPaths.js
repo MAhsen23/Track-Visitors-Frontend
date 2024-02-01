@@ -301,13 +301,11 @@ const PathScreen = (props) => {
                                             }
 
                                             <Pressable onPress={handleStepPress(step, camera, associatedCamera)}>
-                                                <Text style={isHighlighted ? styles.stephighlight : styles.step}>{step}</Text>
+                                                <Text style={[isHighlighted ? styles.stephighlight : styles.step, { backgroundColor: isHighlighted ? (isDetected ? '#0CBFA7' : '#F35469') : '#6AB7E2' }]}>
+                                                    {step}
+                                                </Text>
                                             </Pressable>
 
-                                            {/* Conditionally render the green or red dot */}
-                                            {isHighlighted && (
-                                                <View style={[styles.dot, { backgroundColor: isDetected ? '#A9F9B4' : '#F35469' }]} />
-                                            )}
                                         </View>
                                     );
                                 })}

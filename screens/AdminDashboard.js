@@ -138,6 +138,16 @@ const App = (props) => {
                                 <Text style={styles.buttonsText}>Paths</Text>
                             </Pressable>
                         </View>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 20 }}>
+                            <Pressable style={styles.buttons} onPress={() => props.navigation.navigate('RestrictLocation')}>
+                                <Image
+                                    style={styles.icons}
+                                    resizeMode="cover"
+                                    source={require("../assets/location_off.png")}
+                                />
+                                <Text style={styles.buttonsText}>Restrict Location</Text>
+                            </Pressable>
+                        </View>
                     </View>
                 </ScrollView >
             </View>

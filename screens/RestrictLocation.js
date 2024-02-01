@@ -6,7 +6,7 @@ import CustomDropdown from '../Custom_Hayo/multi_value_picker';
 import DatePicker from 'react-native-modern-datepicker';
 import CustomTimePicker from "../Custom_Hayo/time_picker";
 import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
-
+import HeaderBar from "../Custom_Hayo/header_bar";
 
 const App = () => {
 
@@ -140,114 +140,117 @@ const App = () => {
     );
 
     return (
-        <View style={styles.container}>
-            {error !== '' && (
-                <View style={styles.errorContainer}>
-                    <Text style={styles.errorText}>{error}</Text>
-                </View>
-            )}
-            <Text style={styles.label}>Location</Text>
-            <CustomDropdown
-                options={locations}
-                selectedValues={selectedLocations}
-                onValuesSelect={setSelectedLocations}
-                labelKey="name"
-                valueKey="id"
-                placeholder="Select Location"
-                height={350}
-                width='92%'
-            />
-            <View style={styles.inputBox}>
-                <Pressable onPress={() => { setStartDatePickerOpen(!startDatePickerOpen) }} style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", }}>
-                    <TextInput placeholder="Select start date & time" value={startDate ? String(`${startDate} ${formatTime(startselectedTime)}`) : ''} editable={false} style={styles.input} />
-                    <Image style={{ tintColor: 'lightgrey', position: "absolute", right: 10, width: 20, height: 20, }} source={require('../assets/schedule.png')} />
-                </Pressable>
-            </View>
-            <View style={styles.inputBox}>
-                <Pressable onPress={() => { setEndDatePickerOpen(!endDatePickerOpen) }} style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", }}>
-                    <TextInput placeholder="Select end date & time" editable={false} style={styles.input} value={endDate ? String(`${endDate} ${formatTime(endselectedTime)}`) : ''} />
-                    <Image style={{ tintColor: 'lightgrey', position: "absolute", right: 10, width: 20, height: 20, }} source={require('../assets/schedule.png')} />
-                </Pressable>
-            </View>
-
-            <Modal
-                animationType='slide'
-                transparent={true}
-                visible={startDatePickerOpen}
-            >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <DatePicker
-                            mode='calendar'
-                            onSelectedChange={date => setStartDate(date)}
-                            minimumDate={todaysDate}
-                        />
-                        <CustomTimePicker label="" selectedTime={startselectedTime} setSelectedTime={setStartSelectedTime} />
-                        <Pressable style={{ marginTop: 30, }} onPress={() => { setStartDatePickerOpen(!startDatePickerOpen) }}>
-                            <Text style={{ fontFamily: FontFamily.poppinsMedium }}>Close</Text>
-                        </Pressable>
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+            <HeaderBar title="Restrict Location" />
+            <View style={styles.container}>
+                {error !== '' && (
+                    <View style={styles.errorContainer}>
+                        <Text style={styles.errorText}>{error}</Text>
                     </View>
-                </View>
-            </Modal>
-
-
-            <Modal
-                animationType='slide'
-                transparent={true}
-                visible={endDatePickerOpen}
-            >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <DatePicker
-                            mode='calendar'
-                            onSelectedChange={date => setEndDate(date)}
-                            minimumDate={todaysDate}
-                        />
-                        <CustomTimePicker label="" selectedTime={endselectedTime} setSelectedTime={setEndSelectedTime} />
-                        <Pressable style={{ marginTop: 30, }} onPress={() => { setEndDatePickerOpen(!endDatePickerOpen) }}>
-                            <Text style={{ fontFamily: FontFamily.poppinsMedium }}>Close</Text>
-                        </Pressable>
-                    </View>
-                </View>
-            </Modal>
-            <Pressable onPress={restrictLocations} style={{ padding: 12, backgroundColor: Color.deepskyblue, alignItems: 'center', borderRadius: 7, elevation: 1, marginVertical: 20, }}>
-                <Text style={{
-                    fontFamily: FontFamily.poppinsMedium,
-                    fontSize: 16,
-                    color: '#fff',
-                }}>Restrict</Text>
-            </Pressable>
-
-            <View style={styles.searchBar}>
-                <TextInput
-                    style={styles.searchInput}
-                    placeholder="Search"
-                    value={mainSearchText}
-                    onChangeText={(text) => setMainSearchText(text)}
+                )}
+                <Text style={styles.label}>Location</Text>
+                <CustomDropdown
+                    options={locations}
+                    selectedValues={selectedLocations}
+                    onValuesSelect={setSelectedLocations}
+                    labelKey="name"
+                    valueKey="id"
+                    placeholder="Select Location"
+                    height={350}
+                    width='92%'
                 />
-            </View>
-            <View style={styles.listContainer}>
-                <View style={styles.header}>
-                    <Text style={styles.headerText}>Location</Text>
-                    <Text style={styles.headerText}>Restricted till</Text>
-                    <Text style={styles.headerText}>Action</Text>
+                <View style={styles.inputBox}>
+                    <Pressable onPress={() => { setStartDatePickerOpen(!startDatePickerOpen) }} style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", }}>
+                        <TextInput placeholder="Select start date & time" value={startDate ? String(`${startDate} ${formatTime(startselectedTime)}`) : ''} editable={false} style={styles.input} />
+                        <Image style={{ tintColor: 'lightgrey', position: "absolute", right: 10, width: 20, height: 20, }} source={require('../assets/schedule.png')} />
+                    </Pressable>
+                </View>
+                <View style={styles.inputBox}>
+                    <Pressable onPress={() => { setEndDatePickerOpen(!endDatePickerOpen) }} style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", }}>
+                        <TextInput placeholder="Select end date & time" editable={false} style={styles.input} value={endDate ? String(`${endDate} ${formatTime(endselectedTime)}`) : ''} />
+                        <Image style={{ tintColor: 'lightgrey', position: "absolute", right: 10, width: 20, height: 20, }} source={require('../assets/schedule.png')} />
+                    </Pressable>
                 </View>
 
-                <FlatList
-                    style={styles.flatList}
-                    data={restrictedLocations.filter((location) => {
-                        for (let key in location) {
-                            if (key !== 'location_id' && typeof location[key] === 'string') {
-                                if (location[key].toLowerCase().includes(mainSearchText.toLowerCase())) {
-                                    return true;
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={startDatePickerOpen}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <DatePicker
+                                mode='calendar'
+                                onSelectedChange={date => setStartDate(date)}
+                                minimumDate={todaysDate}
+                            />
+                            <CustomTimePicker label="" selectedTime={startselectedTime} setSelectedTime={setStartSelectedTime} />
+                            <Pressable style={{ marginTop: 30, }} onPress={() => { setStartDatePickerOpen(!startDatePickerOpen) }}>
+                                <Text style={{ fontFamily: FontFamily.poppinsMedium }}>Close</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </Modal>
+
+
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={endDatePickerOpen}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <DatePicker
+                                mode='calendar'
+                                onSelectedChange={date => setEndDate(date)}
+                                minimumDate={todaysDate}
+                            />
+                            <CustomTimePicker label="" selectedTime={endselectedTime} setSelectedTime={setEndSelectedTime} />
+                            <Pressable style={{ marginTop: 30, }} onPress={() => { setEndDatePickerOpen(!endDatePickerOpen) }}>
+                                <Text style={{ fontFamily: FontFamily.poppinsMedium }}>Close</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </Modal>
+                <Pressable onPress={restrictLocations} style={{ padding: 12, backgroundColor: Color.deepskyblue, alignItems: 'center', borderRadius: 7, elevation: 1, marginVertical: 20, }}>
+                    <Text style={{
+                        fontFamily: FontFamily.poppinsMedium,
+                        fontSize: 16,
+                        color: '#fff',
+                    }}>Restrict</Text>
+                </Pressable>
+
+                <View style={styles.searchBar}>
+                    <TextInput
+                        style={styles.searchInput}
+                        placeholder="Search"
+                        value={mainSearchText}
+                        onChangeText={(text) => setMainSearchText(text)}
+                    />
+                </View>
+                <View style={styles.listContainer}>
+                    <View style={styles.header}>
+                        <Text style={styles.headerText}>Location</Text>
+                        <Text style={styles.headerText}>Restricted till</Text>
+                        <Text style={styles.headerText}>Action</Text>
+                    </View>
+
+                    <FlatList
+                        style={styles.flatList}
+                        data={restrictedLocations.filter((location) => {
+                            for (let key in location) {
+                                if (key !== 'location_id' && typeof location[key] === 'string') {
+                                    if (location[key].toLowerCase().includes(mainSearchText.toLowerCase())) {
+                                        return true;
+                                    }
                                 }
                             }
-                        }
-                        return false;
-                    })}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={renderItem}
-                />
+                            return false;
+                        })}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={renderItem}
+                    />
+                </View>
             </View>
         </View>
     )
