@@ -149,13 +149,13 @@ const MatrixScreen = (props) => {
                 <ScrollView>
                     <View style={{ flex: 1, flexDirection: 'row', padding: 2, }}>
                         <View style={{ marginRight: 15, }}>
-                            <View style={{ width: 120, backgroundColor: '#fff', elevation: 1, marginBottom: 15, height: 52, justifyContent: 'center', paddingHorizontal: 5, borderRadius: 5, }}>
+                            <View style={{ width: 135, backgroundColor: '#fff', elevation: 1, marginBottom: 15, height: 52, justifyContent: 'center', paddingHorizontal: 5, borderRadius: 5, }}>
                                 <Text style={{ fontFamily: FontFamily.poppinsSemibold, fontSize: 14, color: '#fff' }}></Text>
                             </View>
                             {
                                 rowNames.map((item, index) => (
-                                    <View key={index} style={{ width: 120, backgroundColor: '#0CBFA7', elevation: 1, marginBottom: 15, height: 52, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 5, borderRadius: 5, }}>
-                                        <Text style={{ fontFamily: FontFamily.poppinsSemibold, fontSize: 14, color: '#fff' }}>{item}</Text>
+                                    <View key={index} style={{ width: 135, backgroundColor: '#A9A9A9', elevation: 1, marginBottom: 15, height: 52, justifyContent: 'center', paddingHorizontal: 5, borderRadius: 5, }}>
+                                        <Text style={{ textAlign: 'left', fontFamily: FontFamily.poppinsSemibold, fontSize: 14, color: '#fff', }}>{index + 1}. {item}</Text>
                                     </View>
                                 ))
                             }
@@ -168,8 +168,8 @@ const MatrixScreen = (props) => {
                                             const columnNameSplit = item.split(' ');
                                             const initials = columnNameSplit.slice(0, 2).map(word => word.charAt(0)).join('');
                                             return (
-                                                <View key={index} style={{ width: 52, backgroundColor: '#0CBFA7', elevation: 1, marginRight: 15, height: 52, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 5, borderRadius: 5, }}>
-                                                    <Text style={{ fontFamily: FontFamily.poppinsSemibold, fontSize: 14, color: '#fff' }}>{index + 1}-{initials}</Text>
+                                                <View key={index} style={{ width: 52, backgroundColor: '#A9A9A9', elevation: 1, marginRight: 15, height: 52, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 5, borderRadius: 5, }}>
+                                                    <Text style={{ fontFamily: FontFamily.poppinsSemibold, fontSize: 14, color: '#fff', }}>{index + 1}-{initials}</Text>
                                                 </View>
                                             )
                                         })
