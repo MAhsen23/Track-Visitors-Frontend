@@ -62,7 +62,6 @@ const App = () => {
                 return;
             }
             else {
-                console.log(selectedLocations, startDate, endDate, startselectedTime, endselectedTime)
                 const response = await fetch(`${url}RestrictLocation`, {
                     method: 'POST',
                     headers: {
@@ -115,7 +114,6 @@ const App = () => {
             const response = await fetch(`${url}GetAllLocations`);
             if (response.ok) {
                 const data = await response.json();
-                console.log(data)
                 setLocations(data);
                 setError('');
             } else {

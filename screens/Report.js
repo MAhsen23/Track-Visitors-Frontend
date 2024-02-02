@@ -88,6 +88,12 @@ const App = (props) => {
         return (
             <View style={styles.row}>
                 <Text style={[styles.itemText, { minWidth: 45, maxWidth: 45 }]}>{(index + 1).toString()}</Text>
+                <View style={[styles.itemText, { minWidth: 50, maxWidth: 50 }]}>
+                    <Image
+                        style={{ width: 30, height: 30, borderRadius: 100, borderWidth: 1, borderColor: '#fff' }}
+                        source={{ uri: `data:image/jpeg;base64,${item.image}` }}
+                    />
+                </View>
                 <Text style={[styles.itemText, { minWidth: 150, maxWidth: 150 }]}>{item.VisitorName}</Text>
                 <Text style={[styles.itemText, { minWidth: 100, maxWidth: 100 }]}>{item.VisitDate}</Text>
                 <Text style={[styles.itemText, { minWidth: 100, maxWidth: 100 }]}>{entry_time_formatted}</Text>
@@ -185,6 +191,7 @@ const App = (props) => {
                     <View style={styles.listContainer}>
                         <View style={styles.header}>
                             <Text style={[styles.headerText, { minWidth: 45, maxWidth: 45 }]}>S.No</Text>
+                            <Text style={[styles.headerText, { minWidth: 50, maxWidth: 50 }]}></Text>
                             <Text style={[styles.headerText, { minWidth: 150, maxWidth: 150 }]}>Name</Text>
                             <Text style={[styles.headerText, { minWidth: 100, maxWidth: 100 }]}>Visit Date</Text>
                             <Text style={[styles.headerText, { minWidth: 100, maxWidth: 100 }]}>Entry Time</Text>
