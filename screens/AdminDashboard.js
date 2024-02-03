@@ -147,6 +147,14 @@ const App = (props) => {
                                 />
                                 <Text style={styles.buttonsText}>Restrict Location</Text>
                             </Pressable>
+                            <Pressable onPress={() => props.navigation.navigate('SearchVisitor')} style={styles.buttonsRight}>
+                                <Image
+                                    style={[styles.icons, { tintColor: '#fff' }]}
+                                    resizeMode="cover"
+                                    source={require("../assets/search2.png")}
+                                />
+                                <Text style={styles.buttonsText}>Search Visitor</Text>
+                            </Pressable>
                         </View>
                     </View>
                 </ScrollView >

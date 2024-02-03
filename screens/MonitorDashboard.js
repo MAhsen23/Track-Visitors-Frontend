@@ -1,45 +1,79 @@
 import * as React from "react";
-import { Text, StyleSheet, Pressable, View, Image, TouchableOpacity, ScrollView } from "react-native";
-import { FontFamily } from "../GlobalStyles";
+import { Text, BackHandler, StatusBar, StyleSheet, View, Image, TouchableOpacity, ScrollView, Pressable } from "react-native";
+import { Color, FontFamily } from "../GlobalStyles";
+import url from '../ApiUrl';
 
-const App = () => {
+
+const App = (props) => {
+    const { name, id } = props.route?.params;
+
+    React.useEffect(() => {
+        const backAction = () => {
+            return true;
+        };
+        const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
+        return () => backHandler.remove();
+    }, []);
+
     return (
-        <View>
-            <View style={{
-                borderBottomColor: '#F1F1F1',
-                borderBottomWidth: 1,
-                // backgroundColor:'#F1F1F1'
-            }}>
-                <Text onPress={() => { console.warn("Logout") }} style={styles.logout}>Logout</Text>
-            </View>
-            <View>
-                <View style={styles.welcomeContainer}>
-                    <Text style={{ fontFamily: FontFamily.poppinsRegular, fontSize: 21, color: '#0081A7' }}>
-                        Welcome, <Text style={{ fontWeight: "500", fontFamily: FontFamily.poppinsMedium, }}>User</Text>
-                    </Text>
-                    <Text style={{ fontFamily: FontFamily.poppinsRegular, fontSize: 14, color: '#0081A7' }}>Monitor</Text>
+        <View style={styles.container}>
+            <StatusBar
+                backgroundColor={Color.lightsteelblue}
+                barStyle="light-content"
+            />
+            <View style={{ flex: 1 }}>
+                <View style={{ backgroundColor: Color.lightsteelblue, elevation: 2, borderBottomLeftRadius: 15, borderBottomRightRadius: 15, paddingTop: 30, paddingBottom: 22, marginBottom: 20, paddingLeft: 30, paddingRight: 30, flexDirection: 'row', justifyContent: "space-between" }}>
+                    <View style={[styles.welcomeContainer]}>
+                        <Text style={{ fontFamily: FontFamily.poppinsRegular, fontSize: 22, color: Color.white }}>
+                            Welcome, <Text style={{ fontFamily: FontFamily.poppinsMedium, }}>{name}</Text>
+                        </Text>
+                        <Text style={{ fontFamily: FontFamily.poppinsRegular, fontSize: 16, color: Color.white }}>Monitor</Text>
+                    </View>
+                    <Pressable onPress={() => props.navigation.navigate('Login')}>
+                        <Image
+                            source={require("../assets/Logout.png")}
+                            style={{ tintColor: '#fff', width: 30, height: 30 }}
+                        />
+                    </Pressable>
                 </View>
-                <View style={styles.alertContainer}>
-                    <Text style={{ fontWeight: "500", fontSize: 17, fontFamily: FontFamily.poppinsMedium, color: 'white', textAlign: 'center' }}>Destination: Datacell</Text>
-                    <Text style={styles.alertTextColor}>Visitor deviated form path</Text>
-                    <Text style={styles.alertTextColor}>Visitor Name : Ali Khan</Text>
-                    <Text style={styles.alertTextColor}>Contact: +92 330 123547</Text>
-                    <Text style={styles.alertTextColor}>Current Location: Admin</Text>
-                </View>
-                <View style={styles.alertContainer}>
-                    <Text style={{ fontWeight: "500", fontSize: 17, fontFamily: FontFamily.poppinsMedium, color: 'white', textAlign: 'center' }}>Destination: LT-11</Text>
-                    <Text style={styles.alertTextColor}>Visitor deviated form path</Text>
-                    <Text style={styles.alertTextColor}>Visitor Name : Ali Khan</Text>
-                    <Text style={styles.alertTextColor}>Contact: +92 330 123547</Text>
-                    <Text style={styles.alertTextColor}>Current Location: Admin</Text>
-                </View>
-            </View>
-        </View>
+                <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, backgroundColor: 'white' }}>
+                    <View style={styles.buttonContainer}>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 20 }}>
+                            <TouchableOpacity style={styles.buttons} onPress={() => props.navigation.navigate('Alerts')}>
+                                <View style={{ position: 'relative' }}>
+                                    <Image
+                                        style={styles.icons}
+                                        resizeMode="cover"
+                                        source={require("../assets/notification.png")}
+                                    />
+                                </View>
+                                <Text style={styles.buttonsText}>Alerts</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => { props.navigation.navigate('ExitVisitor') }} style={styles.buttonsRight}>
+                                <Image
+                                    style={styles.icons}
+                                    resizeMode="cover"
+                                    source={require("../assets/re_route1.png")}
+                                />
+                                <Text style={styles.buttonsText}>Re Route</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </ScrollView >
+            </View >
+        </View >
     );
 }
 
 
 styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    buttonContainer: {
+        paddingBottom: 20,
+    },
     buttons: {
         width: '40%',
         height: 150,
@@ -49,6 +83,7 @@ styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 30,
+        elevation: 2,
     },
     buttonsRight: {
         width: '40%',
@@ -59,6 +94,7 @@ styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 30,
+        elevation: 2,
     },
     buttonsText: {
         color: '#ffffff',
@@ -83,21 +119,25 @@ styles = StyleSheet.create({
         marginBottom: 10,
     },
     welcomeContainer: {
-        marginTop: 10,
-        marginLeft: 30,
-        marginBottom: 22,
+        marginBottom: 15,
     },
-    alertContainer: {
-        marginTop: 20,
-        backgroundColor: '#FF736E',
-        marginLeft: 30,
-        marginRight: 30,
-        borderRadius: 10,
-        padding: 12,
+    notificationBadge: {
+        position: 'absolute',
+        top: -5,
+        right: 2,
+        backgroundColor: Color.redishLook,
+        borderRadius: 50,
+        width: 21,
+        height: 21,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 1,
     },
-    alertTextColor: {
-        color: 'white',
-    }
+    notificationBadgeText: {
+        color: '#fff',
+        fontSize: 13,
+        fontFamily: FontFamily.poppinsSemibold,
+    },
 })
 
 export default App;

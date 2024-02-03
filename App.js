@@ -34,6 +34,8 @@ import SavedCameras from './screens/SavedCameras';
 import CheckPaths from './screens/CheckPaths';
 import AdjacencyMatrix from './screens/AdjacencyMatrix'
 import RestrictLocation from './screens/RestrictLocation';
+import SearchVisitor from './screens/SearchVisitor'
+import MonitorDashboard from './screens/MonitorDashboard'
 
 const Stack = createNativeStackNavigator();
 
@@ -67,6 +69,8 @@ const App = (props) => {
                 <Stack.Screen name="VisitPath" component={VisitPath} options={{ headerTitle: 'Visit Current Path', headerShown: false }} />
                 <Stack.Screen name="GuardSettings" component={GuardSettings} options={{ headerTitle: 'Settings', headerShown: false }} />
 
+                <Stack.Screen name="MonitorDashboard" component={MonitorDashboard} options={{ headerTitle: 'Monitor Dashboard', headerShown: false }} />
+
 
                 <Stack.Screen name='AdminDashboard' component={AdminDashboard} options={{ headerTitle: 'Dashboard', headerShown: false }} />
                 <Stack.Screen name='Users' component={Users} options={{ headerShown: false }} />
@@ -89,6 +93,7 @@ const App = (props) => {
                 <Stack.Screen name="CheckPaths" component={CheckPaths} options={{ headerTitle: 'Paths', headerShown: false }} />
                 <Stack.Screen name="AdjacencyMatrix" component={AdjacencyMatrix} options={{ headerTitle: 'Camera Connections', headerShown: false }} />
                 <Stack.Screen name="RestrictLocation" component={RestrictLocation} options={{ headerTitle: 'Restrict Location', headerShown: false }} />
+                <Stack.Screen name="SearchVisitor" component={SearchVisitor} options={{ headerTitle: 'Search Visitor', headerShown: false }} />
 
             </Stack.Navigator>
         </NavigationContainer >
