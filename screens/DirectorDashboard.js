@@ -24,10 +24,10 @@ const App = (props) => {
             <View style={{ flex: 1 }}>
                 <View style={{ backgroundColor: Color.lightsteelblue, elevation: 2, borderBottomLeftRadius: 15, borderBottomRightRadius: 15, paddingTop: 30, paddingBottom: 22, marginBottom: 20, paddingLeft: 30, paddingRight: 30, flexDirection: 'row', justifyContent: "space-between" }}>
                     <View style={[styles.welcomeContainer]}>
-                        <Text style={{ fontFamily: FontFamily.poppinsRegular, fontSize: 22, color: Color.white }}>
+                        <Text style={{ fontFamily: FontFamily.poppinsRegular, fontSize: 20, color: Color.white }}>
                             Welcome, <Text style={{ fontFamily: FontFamily.poppinsMedium, }}>{name}</Text>
                         </Text>
-                        <Text style={{ fontFamily: FontFamily.poppinsRegular, fontSize: 16, color: Color.white }}>Monitor</Text>
+                        <Text style={{ fontFamily: FontFamily.poppinsRegular, fontSize: 15, color: Color.white }}>Director</Text>
                     </View>
                     <Pressable onPress={() => props.navigation.navigate('Login')}>
                         <Image
@@ -39,23 +39,43 @@ const App = (props) => {
                 <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, backgroundColor: 'white' }}>
                     <View style={styles.buttonContainer}>
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 20 }}>
-                            <TouchableOpacity style={styles.buttons} onPress={() => props.navigation.navigate('Alerts')}>
+                            <TouchableOpacity style={styles.buttons} onPress={() => props.navigation.navigate('TodayVisitors', { id })}>
                                 <View style={{ position: 'relative' }}>
                                     <Image
                                         style={styles.icons}
                                         resizeMode="cover"
-                                        source={require("../assets/notification.png")}
+                                        source={require("../assets/daily.png")}
                                     />
                                 </View>
-                                <Text style={styles.buttonsText}>Alerts</Text>
+                                <Text style={styles.buttonsText}>Today's Visitors</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => { props.navigation.navigate('ReRoute') }} style={styles.buttonsRight}>
+                            <TouchableOpacity onPress={() => { props.navigation.navigate('WeeklyVisitors') }} style={styles.buttonsRight}>
                                 <Image
                                     style={styles.icons}
                                     resizeMode="cover"
-                                    source={require("../assets/re_route1.png")}
+                                    source={require("../assets/calendar_7.png")}
                                 />
-                                <Text style={styles.buttonsText}>Re Route</Text>
+                                <Text style={styles.buttonsText}>Weekly Visitors</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 20 }}>
+                            <TouchableOpacity style={styles.buttons} onPress={() => props.navigation.navigate('SearchTodayVisitors')}>
+                                <View style={{ position: 'relative' }}>
+                                    <Image
+                                        style={[styles.icons, { tintColor: '#fff' }]}
+                                        resizeMode="cover"
+                                        source={require("../assets/search2.png")}
+                                    />
+                                </View>
+                                <Text style={styles.buttonsText}>Search Visitors</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.buttonsRight} onPress={() => props.navigation.navigate('BlockedVisitors')}>
+                                <Image
+                                    style={styles.icons}
+                                    resizeMode="cover"
+                                    source={require("../assets/unavailable.png")}
+                                />
+                                <Text style={styles.buttonsText}>Blocked Visitors</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

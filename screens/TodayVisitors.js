@@ -1,41 +1,47 @@
 import React, { useState, useEffect } from "react";
 import {
     View, Image,
-    StyleSheet, ScrollView, Text, FlatList, Pressable,
+    StyleSheet, ScrollView, Text, FlatList, Pressable, Alert,
 } from 'react-native';
 import HeaderBar from '../components/header_bar'
-import Picker from "../components/one_value_picker_with_mul_labels";
 import url from "../ApiUrl";
-import { FontFamily } from "../GlobalStyles";
+import { Color, FontFamily } from "../GlobalStyles";
 
-const App = () => {
+const App = (props) => {
+
+    const { id } = props.route.params;
 
     const [visitors, setVisitors] = useState([]);
     const [selectedVisitor, setSelectedVisitor] = useState('')
-
-    const [reports, setReports] = useState([]);
-    const [visitorImage, setVisitorImage] = useState('');
 
     useEffect(() => {
         fetchVisitors();
     }, [])
 
-    useEffect(() => {
 
-        if (selectedVisitor)
-            fetchVisitorReport(selectedVisitor);
-
-    }, [selectedVisitor])
-
-    const fetchVisitorReport = async () => {
+    const fetchVisitors = async () => {
         try {
-            const response = await fetch(`${url}GetVisitorReport?id=${selectedVisitor}`);
+            const response = await fetch(`${url}GetTodayVisitors`);
             if (response.ok) {
                 const data = await response.json();
-                setReports(data.visitor_report);
-                setVisitorImage(data.visitor_image);
+                setVisitors(data);
             } else {
-                throw new Error('Failed to fetch visitor report.');
+                throw new Error('Failed to fetch today visitors.');
+            }
+        } catch (error) {
+            console.error('Error occurred during API request:', error);
+        }
+    };
+
+
+    const blockVisitor = async (visitor_id) => {
+        try {
+            const response = await fetch(`${url}BlockVisitorForDay?id=${visitor_id}&user_id=${id}`);
+            if (response.ok) {
+                Alert.alert('Success', 'Visitor blocked successfully.');
+                fetchVisitors();
+            } else {
+                throw new Error('Failed to block visitor.');
             }
         } catch (error) {
             console.error('Error occurred during API request:', error);
@@ -43,23 +49,7 @@ const App = () => {
     }
 
 
-    const fetchVisitors = async () => {
-        try {
-            const response = await fetch(`${url}GetAllVisitors`);
-            if (response.ok) {
-                const data = await response.json();
-                setVisitors(data);
-            } else {
-                throw new Error('Failed to fetch all visitors.');
-            }
-        } catch (error) {
-            console.error('Error occurred during API request:', error);
-        }
-    };
-
     const formatDate = (dateString) => {
-        // const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-        // const formattedDate = new Date(dateString).toLocaleDateString(undefined, options);
         return dateString.format('YYYY-MM-DD');
     };
 
@@ -85,13 +75,35 @@ const App = () => {
         }
 
         return (
-            <View style={styles.row}>
-                <Text style={[styles.itemText, { minWidth: 45, maxWidth: 45 }]}>{(index + 1).toString()}</Text>
-                <Text style={[styles.itemText, { minWidth: 150, maxWidth: 150 }]}>{item.VisitorName}</Text>
-                <Text style={[styles.itemText, { minWidth: 100, maxWidth: 100 }]}>{item.VisitDate}</Text>
-                <Text style={[styles.itemText, { minWidth: 100, maxWidth: 100 }]}>{entry_time_formatted}</Text>
-                <Text style={[styles.itemText, { minWidth: 100, maxWidth: 100 }]}>{exit_time_formatted ? exit_time_formatted : 'Active visit'}</Text>
-                <Text style={[styles.itemText, { minWidth: 250, maxWidth: 250 }]}>{item.LocationsVisited}</Text>
+            <View style={{
+                marginVertical: 8,
+                marginHorizontal: 1,
+                elevation: 1,
+                borderRadius: 3,
+                paddingVertical: 10,
+                backgroundColor: "#fff",
+                paddingHorizontal: 6,
+            }}>
+                <View style={styles.row}>
+                    <Text style={[styles.itemText, { minWidth: 45, maxWidth: 45 }]}>{(index + 1).toString()}</Text>
+                    {/* <View style={[styles.itemText, { minWidth: 50, maxWidth: 50 }]}>
+                        <Image
+                            style={{ width: 30, height: 30, borderRadius: 100, borderWidth: 1, borderColor: '#fff' }}
+                            source={{ uri: `data:image/jpeg;base64,${item.image}` }}
+                        />
+                    </View> */}
+                    <Text style={[styles.itemText, { minWidth: 150, maxWidth: 150 }]}>{item.VisitorName}</Text>
+                    <Text style={[styles.itemText, { minWidth: 100, maxWidth: 100 }]}>{item.VisitDate}</Text>
+                    <Text style={[styles.itemText, { minWidth: 100, maxWidth: 100 }]}>{entry_time_formatted}</Text>
+                    <Text style={[styles.itemText, { minWidth: 100, maxWidth: 100 }]}>{exit_time_formatted ? exit_time_formatted : 'Active visit'}</Text>
+                    <Text style={[styles.itemText, { minWidth: 250, maxWidth: 250 }]}>{item.LocationsVisited}</Text>
+                </View>
+                <View style={{ width: 100, borderBottomColor: Color.redishLook, opacity: 0.2, borderBottomWidth: 1, marginTop: 10 }}>
+
+                </View>
+                <Pressable onPress={() => { blockVisitor(item.VisitorId) }} style={{ marginTop: 15, width: 100, height: 35, backgroundColor: Color.redishLook, borderRadius: 4, alignItems: 'center', justifyContent: 'center' }}>
+                    <Text style={{ color: '#fff', fontFamily: FontFamily.poppinsMedium, }}>Block</Text>
+                </Pressable>
             </View>
         );
     };
@@ -99,32 +111,14 @@ const App = () => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
-            <HeaderBar title="Search Visitor" />
+            <HeaderBar title="Today's Visitors" />
             <View style={styles.container}>
-                <Picker
-                    options={visitors}
-                    selectedValue={selectedVisitor}
-                    onValueSelect={setSelectedVisitor}
-                    labelKeys={["name", "phone"]}
-                    valueKey="id"
-                    placeholder="Select Visitor"
-                    height={350}
-                    width='92%'
-                    selectedValueLabels={["name"]}
-                />
-                {visitorImage &&
-                    <Pressable style={{ width: 70, height: 70, marginVertical: 10, borderRadius: 100, backgroundColor: '#fff', elevation: 1, alignItems: "center", justifyContent: "center" }}>
-                        <Image
-                            style={{ width: 65, height: 65, borderRadius: 100, borderWidth: 1, borderColor: '#fff' }}
-                            source={{ uri: `data:image/jpeg;base64,${visitorImage}` }}
-                        />
-                    </Pressable>
-                }
-                {reports.length > 0 &&
+                {visitors.length > 0 &&
                     <ScrollView horizontal>
                         <View style={styles.listContainer}>
                             <View style={styles.header}>
                                 <Text style={[styles.headerText, { minWidth: 45, maxWidth: 45 }]}>S.No</Text>
+                                {/* <Text style={[styles.headerText, { minWidth: 50, maxWidth: 50 }]}></Text> */}
                                 <Text style={[styles.headerText, { minWidth: 150, maxWidth: 150 }]}>Name</Text>
                                 <Text style={[styles.headerText, { minWidth: 100, maxWidth: 100 }]}>Visit Date</Text>
                                 <Text style={[styles.headerText, { minWidth: 100, maxWidth: 100 }]}>Entry Time</Text>
@@ -133,7 +127,7 @@ const App = () => {
                             </View>
                             <FlatList
                                 style={styles.flatList}
-                                data={reports}
+                                data={visitors}
                                 keyExtractor={(item, index) => index.toString()}
                                 renderItem={renderItem}
                             />
@@ -175,13 +169,6 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginVertical: 8,
-        marginHorizontal: 1,
-        elevation: 1,
-        borderRadius: 3,
-        paddingVertical: 10,
-        backgroundColor: "#fff",
-        paddingHorizontal: 6,
     },
     itemText: {
         fontFamily: FontFamily.poppinsRegular,

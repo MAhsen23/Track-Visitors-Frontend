@@ -12,10 +12,10 @@ import {
 } from "react-native";
 import { Color } from "../GlobalStyles";
 import { FontFamily } from "../GlobalStyles";
-import CustomPickerOneValue from "../Custom_Hayo/custom_picker_one_value";
+import CustomPickerOneValue from "../components/custom_picker_one_value";
 import url from "../ApiUrl";
 import ImagePicker from 'react-native-image-crop-picker';
-import CustomDropdown from "../Custom_Hayo/multi_value_picker";
+import CustomDropdown from "../components/multi_value_picker";
 
 
 
@@ -287,6 +287,20 @@ const App = (props) => {
         }
     };
 
+    const handleValuesSelect = (selectedValues) => {
+        const hasRestrictedLocation = selectedValues.some(item => {
+            const locObj = destinations.find(des => des.id === item);
+            return locObj && locObj.restrict === "True";
+        });
+
+        if (hasRestrictedLocation) {
+            Alert.alert("Error", 'One or more selected locations are restricted');
+        } else {
+            console.log("Selected values:", selectedValues);
+            setSelectedDestinations(selectedValues);
+        }
+    };
+
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
             <View style={{ alignItems: 'center', backgroundColor: Color.white, elevation: 2, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, height: 65, marginBottom: 5, paddingLeft: 20, paddingRight: 20, flexDirection: 'row', justifyContent: "space-between" }}>
@@ -362,7 +376,7 @@ const App = (props) => {
                         <CustomDropdown
                             options={destinations.filter(item => item.type !== 'Gate')}
                             selectedValues={selectedDestinations}
-                            onValuesSelect={setSelectedDestinations}
+                            onValuesSelect={handleValuesSelect}
                             labelKey="name"
                             valueKey="id"
                             placeholder="Select Destination"

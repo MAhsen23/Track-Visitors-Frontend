@@ -15,7 +15,7 @@ import {
 import { FontFamily } from '../GlobalStyles';
 import { Color } from '../GlobalStyles';
 import url from '../ApiUrl';
-import CustomPicker from '../Custom_Hayo/custom_picker_one_value';
+import CustomPicker from '../components/custom_picker_one_value';
 
 import DatePicker from 'react-native-modern-datepicker';
 import { getToday, getFormatedDate } from 'react-native-modern-datepicker';

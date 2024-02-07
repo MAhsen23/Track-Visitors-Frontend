@@ -86,6 +86,14 @@ const App = (props) => {
                                 />
                                 <Text style={styles.buttonsText}>Current Visitors</Text>
                             </TouchableOpacity>
+                            <TouchableOpacity onPress={() => { props.navigation.navigate('VisitorMode') }} style={styles.buttonsRight}>
+                                <Image
+                                    style={styles.icons}
+                                    resizeMode="cover"
+                                    source={require("../assets/eye_checked.png")}
+                                />
+                                <Text style={styles.buttonsText}>Visitor Mode</Text>
+                            </TouchableOpacity>
                         </View>
 
                     </View>

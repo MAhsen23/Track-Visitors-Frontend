@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
-    View, Image,
+    View, Image, TextInput,
     StyleSheet, ScrollView, Text, FlatList, Pressable,
 } from 'react-native';
 import HeaderBar from '../components/header_bar'
-import Picker from "../components/one_value_picker_with_mul_labels";
 import url from "../ApiUrl";
 import { FontFamily } from "../GlobalStyles";
 
@@ -13,44 +12,21 @@ const App = () => {
     const [visitors, setVisitors] = useState([]);
     const [selectedVisitor, setSelectedVisitor] = useState('')
 
-    const [reports, setReports] = useState([]);
-    const [visitorImage, setVisitorImage] = useState('');
+    const [mainSearchText, setMainSearchText] = useState('');
 
     useEffect(() => {
         fetchVisitors();
     }, [])
 
-    useEffect(() => {
-
-        if (selectedVisitor)
-            fetchVisitorReport(selectedVisitor);
-
-    }, [selectedVisitor])
-
-    const fetchVisitorReport = async () => {
-        try {
-            const response = await fetch(`${url}GetVisitorReport?id=${selectedVisitor}`);
-            if (response.ok) {
-                const data = await response.json();
-                setReports(data.visitor_report);
-                setVisitorImage(data.visitor_image);
-            } else {
-                throw new Error('Failed to fetch visitor report.');
-            }
-        } catch (error) {
-            console.error('Error occurred during API request:', error);
-        }
-    }
-
 
     const fetchVisitors = async () => {
         try {
-            const response = await fetch(`${url}GetAllVisitors`);
+            const response = await fetch(`${url}GetTodayVisitors`);
             if (response.ok) {
                 const data = await response.json();
                 setVisitors(data);
             } else {
-                throw new Error('Failed to fetch all visitors.');
+                throw new Error('Failed to fetch today visitors.');
             }
         } catch (error) {
             console.error('Error occurred during API request:', error);
@@ -58,8 +34,6 @@ const App = () => {
     };
 
     const formatDate = (dateString) => {
-        // const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-        // const formattedDate = new Date(dateString).toLocaleDateString(undefined, options);
         return dateString.format('YYYY-MM-DD');
     };
 
@@ -87,6 +61,12 @@ const App = () => {
         return (
             <View style={styles.row}>
                 <Text style={[styles.itemText, { minWidth: 45, maxWidth: 45 }]}>{(index + 1).toString()}</Text>
+                <View style={[styles.itemText, { minWidth: 50, maxWidth: 50 }]}>
+                    <Image
+                        style={{ width: 30, height: 30, borderRadius: 100, borderWidth: 1, borderColor: '#fff' }}
+                        source={{ uri: `data:image/jpeg;base64,${item.image}` }}
+                    />
+                </View>
                 <Text style={[styles.itemText, { minWidth: 150, maxWidth: 150 }]}>{item.VisitorName}</Text>
                 <Text style={[styles.itemText, { minWidth: 100, maxWidth: 100 }]}>{item.VisitDate}</Text>
                 <Text style={[styles.itemText, { minWidth: 100, maxWidth: 100 }]}>{entry_time_formatted}</Text>
@@ -99,32 +79,22 @@ const App = () => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
-            <HeaderBar title="Search Visitor" />
+            <HeaderBar title="Search Today's Visitors" />
             <View style={styles.container}>
-                <Picker
-                    options={visitors}
-                    selectedValue={selectedVisitor}
-                    onValueSelect={setSelectedVisitor}
-                    labelKeys={["name", "phone"]}
-                    valueKey="id"
-                    placeholder="Select Visitor"
-                    height={350}
-                    width='92%'
-                    selectedValueLabels={["name"]}
-                />
-                {visitorImage &&
-                    <Pressable style={{ width: 70, height: 70, marginVertical: 10, borderRadius: 100, backgroundColor: '#fff', elevation: 1, alignItems: "center", justifyContent: "center" }}>
-                        <Image
-                            style={{ width: 65, height: 65, borderRadius: 100, borderWidth: 1, borderColor: '#fff' }}
-                            source={{ uri: `data:image/jpeg;base64,${visitorImage}` }}
-                        />
-                    </Pressable>
-                }
-                {reports.length > 0 &&
+                <View style={styles.searchBar}>
+                    <TextInput
+                        value={mainSearchText}
+                        onChangeText={(text) => setMainSearchText(text)}
+                        style={styles.searchInput}
+                        placeholder="Search"
+                    />
+                </View>
+                {visitors.length > 0 &&
                     <ScrollView horizontal>
                         <View style={styles.listContainer}>
                             <View style={styles.header}>
                                 <Text style={[styles.headerText, { minWidth: 45, maxWidth: 45 }]}>S.No</Text>
+                                <Text style={[styles.headerText, { minWidth: 50, maxWidth: 50 }]}></Text>
                                 <Text style={[styles.headerText, { minWidth: 150, maxWidth: 150 }]}>Name</Text>
                                 <Text style={[styles.headerText, { minWidth: 100, maxWidth: 100 }]}>Visit Date</Text>
                                 <Text style={[styles.headerText, { minWidth: 100, maxWidth: 100 }]}>Entry Time</Text>
@@ -133,7 +103,16 @@ const App = () => {
                             </View>
                             <FlatList
                                 style={styles.flatList}
-                                data={reports}
+                                data={visitors.filter((visitor) => {
+                                    for (let key in visitor) {
+                                        if (key !== 'VisitID' && key !== 'VisitorId' && key !== 'image' && typeof visitor[key] === 'string') {
+                                            if (visitor[key].toLowerCase().includes(mainSearchText.toLowerCase())) {
+                                                return true;
+                                            }
+                                        }
+                                    }
+                                    return false;
+                                })}
                                 keyExtractor={(item, index) => index.toString()}
                                 renderItem={renderItem}
                             />
@@ -202,6 +181,21 @@ const styles = StyleSheet.create({
     flatList: {
         marginBottom: 35,
     },
+
+    searchBar: {
+        paddingVertical: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    searchInput: {
+        height: 40,
+        borderColor: '#e1e1e1',
+        borderRadius: 15,
+        borderWidth: 1,
+        paddingHorizontal: 12,
+        flex: 1,
+    },
+
 })
 
 export default App;

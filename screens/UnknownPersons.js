@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, Alert, View, Image, Dimensions, Pressable, ScrollView, Modal, TouchableOpacity, VirtualizedList } from "react-native";
 import { FontFamily, Color } from "../GlobalStyles";
 import url from '../ApiUrl';
-import SingleValueCusDropdown from '../Custom_Hayo/one_value_picker'
+import SingleValueCusDropdown from '../components/one_value_picker'
 import CalendarPicker from 'react-native-calendar-picker';
 import { FlatList } from "react-native-gesture-handler";
 

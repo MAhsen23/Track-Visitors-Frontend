@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Text, Alert, StyleSheet, View, Image, Pressable, ScrollView } from "react-native";
 import { FontFamily, Color } from "../GlobalStyles";
-import CustomDropdown from "../Custom_Hayo/multi_value_picker";
+import CustomDropdown from "../components/multi_value_picker";
 import url from "../ApiUrl";
-import SingleValueCusDropdown from "../Custom_Hayo/one_value_picker";
+import SingleValueCusDropdown from "../components/one_value_picker";
 
 const App = (props) => {
 

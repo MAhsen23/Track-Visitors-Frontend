@@ -51,6 +51,9 @@ const App = (props) => {
                     ))}
                 </View>
             </ScrollView >
+            {/* <Pressable style={{ marginBottom: 20, alignSelf: 'center', width: '45%', height: 42, borderRadius: 30, backgroundColor: Color.deepskyblue, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ color: '#fff', fontFamily: FontFamily.poppinsMedium, fontSize: 13, }}>Switch to Visitor</Text>
+            </Pressable> */}
         </View>
     );
 };

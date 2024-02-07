@@ -70,10 +70,15 @@ const Login = (props) => {
 
                 if (user.role === "Guard") {
                     props.navigation.navigate("GuardDashboard", { name, id, duty_location });
-                } else if (user.role === "Admin") {
+                }
+                else if (user.role === "Admin") {
                     props.navigation.navigate("AdminDashboard", { name, id });
-                } else if (user.role === "Monitor") {
+                }
+                else if (user.role === "Monitor") {
                     props.navigation.navigate("MonitorDashboard", { name, id });
+                }
+                else if (user.role === "Director") {
+                    props.navigation.navigate("DirectorDashboard", { name, id });
                 }
             } else {
                 throw new Error("Invalid Username or Password");

@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { FontFamily, Color } from '../GlobalStyles';
 import url from '../ApiUrl';
-import CustomDropdown from '../Custom_Hayo/multi_value_picker';
+import CustomDropdown from '../components/multi_value_picker';
 
 
 const MyScreen = (props) => {

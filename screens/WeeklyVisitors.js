@@ -1,56 +1,39 @@
 import React, { useState, useEffect } from "react";
 import {
     View, Image,
-    StyleSheet, ScrollView, Text, FlatList, Pressable,
+    StyleSheet, ScrollView, Text, Modal, FlatList, Pressable,
 } from 'react-native';
 import HeaderBar from '../components/header_bar'
-import Picker from "../components/one_value_picker_with_mul_labels";
 import url from "../ApiUrl";
-import { FontFamily } from "../GlobalStyles";
+import { FontFamily, Color } from "../GlobalStyles";
 
 const App = () => {
+
+    const [selectedImage, setSelectedImage] = useState('');
 
     const [visitors, setVisitors] = useState([]);
     const [selectedVisitor, setSelectedVisitor] = useState('')
 
-    const [reports, setReports] = useState([]);
-    const [visitorImage, setVisitorImage] = useState('');
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     useEffect(() => {
         fetchVisitors();
     }, [])
 
     useEffect(() => {
-
-        if (selectedVisitor)
-            fetchVisitorReport(selectedVisitor);
-
-    }, [selectedVisitor])
-
-    const fetchVisitorReport = async () => {
-        try {
-            const response = await fetch(`${url}GetVisitorReport?id=${selectedVisitor}`);
-            if (response.ok) {
-                const data = await response.json();
-                setReports(data.visitor_report);
-                setVisitorImage(data.visitor_image);
-            } else {
-                throw new Error('Failed to fetch visitor report.');
-            }
-        } catch (error) {
-            console.error('Error occurred during API request:', error);
+        if (selectedImage) {
+            setIsModalVisible(true);
         }
-    }
-
+    }, [selectedImage])
 
     const fetchVisitors = async () => {
         try {
-            const response = await fetch(`${url}GetAllVisitors`);
+            const response = await fetch(`${url}GetWeeklyVisitors`);
             if (response.ok) {
                 const data = await response.json();
                 setVisitors(data);
             } else {
-                throw new Error('Failed to fetch all visitors.');
+                throw new Error('Failed to fetch weekly visitors.');
             }
         } catch (error) {
             console.error('Error occurred during API request:', error);
@@ -58,8 +41,6 @@ const App = () => {
     };
 
     const formatDate = (dateString) => {
-        // const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-        // const formattedDate = new Date(dateString).toLocaleDateString(undefined, options);
         return dateString.format('YYYY-MM-DD');
     };
 
@@ -87,6 +68,14 @@ const App = () => {
         return (
             <View style={styles.row}>
                 <Text style={[styles.itemText, { minWidth: 45, maxWidth: 45 }]}>{(index + 1).toString()}</Text>
+                <Pressable onPress={() => {
+                    setSelectedImage(item.image)
+                }} style={[styles.itemText, { minWidth: 50, maxWidth: 50 }]}>
+                    <Image
+                        style={{ width: 30, height: 30, borderRadius: 100, borderWidth: 1, borderColor: '#fff' }}
+                        source={{ uri: `data:image/jpeg;base64,${item.image}` }}
+                    />
+                </Pressable>
                 <Text style={[styles.itemText, { minWidth: 150, maxWidth: 150 }]}>{item.VisitorName}</Text>
                 <Text style={[styles.itemText, { minWidth: 100, maxWidth: 100 }]}>{item.VisitDate}</Text>
                 <Text style={[styles.itemText, { minWidth: 100, maxWidth: 100 }]}>{entry_time_formatted}</Text>
@@ -99,32 +88,14 @@ const App = () => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
-            <HeaderBar title="Search Visitor" />
+            <HeaderBar title="Weekly Visitors" />
             <View style={styles.container}>
-                <Picker
-                    options={visitors}
-                    selectedValue={selectedVisitor}
-                    onValueSelect={setSelectedVisitor}
-                    labelKeys={["name", "phone"]}
-                    valueKey="id"
-                    placeholder="Select Visitor"
-                    height={350}
-                    width='92%'
-                    selectedValueLabels={["name"]}
-                />
-                {visitorImage &&
-                    <Pressable style={{ width: 70, height: 70, marginVertical: 10, borderRadius: 100, backgroundColor: '#fff', elevation: 1, alignItems: "center", justifyContent: "center" }}>
-                        <Image
-                            style={{ width: 65, height: 65, borderRadius: 100, borderWidth: 1, borderColor: '#fff' }}
-                            source={{ uri: `data:image/jpeg;base64,${visitorImage}` }}
-                        />
-                    </Pressable>
-                }
-                {reports.length > 0 &&
+                {visitors.length > 0 &&
                     <ScrollView horizontal>
                         <View style={styles.listContainer}>
                             <View style={styles.header}>
                                 <Text style={[styles.headerText, { minWidth: 45, maxWidth: 45 }]}>S.No</Text>
+                                <Text style={[styles.headerText, { minWidth: 50, maxWidth: 50 }]}></Text>
                                 <Text style={[styles.headerText, { minWidth: 150, maxWidth: 150 }]}>Name</Text>
                                 <Text style={[styles.headerText, { minWidth: 100, maxWidth: 100 }]}>Visit Date</Text>
                                 <Text style={[styles.headerText, { minWidth: 100, maxWidth: 100 }]}>Entry Time</Text>
@@ -133,13 +104,55 @@ const App = () => {
                             </View>
                             <FlatList
                                 style={styles.flatList}
-                                data={reports}
+                                data={visitors}
                                 keyExtractor={(item, index) => index.toString()}
                                 renderItem={renderItem}
                             />
                         </View>
                     </ScrollView>
                 }
+                <View>
+                    <Modal
+                        animationType="fade"
+                        visible={isModalVisible}
+                        onRequestClose={() => setIsModalVisible(false)}
+                        transparent
+                    >
+                        <View style={{
+                            flex: 1,
+                            backgroundColor: 'rgba(0,0,0,0.5)',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}>
+                            <View
+                                style={{
+                                    borderRadius: 8,
+                                    paddingVertical: 15,
+                                    paddingHorizontal: 15,
+                                    maxHeight: 350,
+                                    backgroundColor: '#fff',
+                                    elevation: 1,
+                                    width: '92%',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Image
+                                    style={{ width: 260, height: 260, borderRadius: 4, }}
+                                    source={{ uri: `data:image/jpeg;base64,${selectedImage}` }}
+                                />
+                                <Pressable onPress={() => { setIsModalVisible(false) }} style={{ marginVertical: 15, }}>
+                                    <Image
+                                        style={[{
+                                            tintColor: Color.redishLook
+                                            , width: 25, height: 25
+                                        }]}
+                                        source={require("../assets/multiply.png")}
+                                    />
+                                </Pressable>
+                            </View>
+                        </View>
+                    </Modal>
+                </View>
             </View>
         </View>
     )

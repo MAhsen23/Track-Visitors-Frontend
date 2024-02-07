@@ -2,11 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import { View, TouchableOpacity, FlatList, Modal, Text, Image, TextInput, Alert, Pressable, StyleSheet } from "react-native";
 import { FontFamily, Color } from '../GlobalStyles';
 import url from '../ApiUrl';
-import CustomDropdown from '../Custom_Hayo/multi_value_picker';
+import CustomDropdown from '../components/multi_value_picker';
 import DatePicker from 'react-native-modern-datepicker';
-import CustomTimePicker from "../Custom_Hayo/time_picker";
+import CustomTimePicker from "../components/time_picker";
 import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
-import HeaderBar from "../Custom_Hayo/header_bar";
+import HeaderBar from "../components/header_bar";
 
 const App = () => {
 
@@ -130,12 +130,26 @@ const App = () => {
             <View style={styles.row}>
                 <Text style={styles.itemText}>{item.location_name}</Text>
                 <Text style={[styles.itemText]}>{item.end_datetime}</Text>
-                <Pressable style={styles.itemText}>
+                <Pressable onPress={() => { permitLocation(item.location_id) }} style={styles.itemText}>
                     <Text style={{ fontFamily: FontFamily.poppinsMedium, backgroundColor: 'skyblue', textAlign: 'center', color: 'white', paddingVertical: 4, justifyContent: 'center', width: 80, borderRadius: 5, fontSize: 13, }}>UnRestrict</Text>
                 </Pressable>
             </View >
         </Pressable >
     );
+
+    const permitLocation = async (id) => {
+        try {
+            const response = await fetch(`${url}PermitLocation?location_id=${id}`);
+            if (response.ok) {
+                Alert.alert('Success', 'Location permitted successfully.');
+                fetchRestrictedLocations();
+            } else {
+                throw new Error('Failed to permit location.');
+            }
+        } catch (error) {
+            console.error('Error occurred during API request:', error);
+        }
+    }
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>

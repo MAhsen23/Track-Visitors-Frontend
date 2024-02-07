@@ -3,7 +3,7 @@ import { View, Modal, Text, TextInput, Image, Pressable, Alert, TouchableOpacity
 import { Color, FontFamily, FontSize } from "../GlobalStyles";
 import url from '../ApiUrl';
 import { launchImageLibrary } from 'react-native-image-picker';
-import CustomPickerWithoutSearch from "../Custom_Hayo/custom_picker_without_search";
+import CustomPickerWithoutSearch from "../components/custom_picker_without_search";
 
 const PathScreen = (props) => {
 

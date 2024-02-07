@@ -36,6 +36,14 @@ import AdjacencyMatrix from './screens/AdjacencyMatrix'
 import RestrictLocation from './screens/RestrictLocation';
 import SearchVisitor from './screens/SearchVisitor'
 import MonitorDashboard from './screens/MonitorDashboard'
+import ReRoute from './screens/ReRoute';
+import DirectorDashboard from './screens/DirectorDashboard';
+import TodayVisitors from './screens/TodayVisitors';
+import WeeklyVisitors from './screens/WeeklyVisitors'
+import SearchTodayVisitors from './screens/SearchTodayVisitors'
+import BlockedVisitors from './screens/BlockedVisitors'
+import VisitorMode from './screens/VisitorMode'
+import VisitorDashboard from './screens/VisitorDashboard'
 
 const Stack = createNativeStackNavigator();
 
@@ -68,6 +76,7 @@ const App = (props) => {
                 <Stack.Screen name="CurrentVisitors" component={CurrentVisitors} options={{ headerTitle: 'Current Visitors', headerShown: false }} />
                 <Stack.Screen name="VisitPath" component={VisitPath} options={{ headerTitle: 'Visit Current Path', headerShown: false }} />
                 <Stack.Screen name="GuardSettings" component={GuardSettings} options={{ headerTitle: 'Settings', headerShown: false }} />
+                <Stack.Screen name="VisitorMode" component={VisitorMode} options={{ headerTitle: 'Visitor Mode', headerShown: false }} />
 
                 <Stack.Screen name="MonitorDashboard" component={MonitorDashboard} options={{ headerTitle: 'Monitor Dashboard', headerShown: false }} />
 
@@ -94,6 +103,14 @@ const App = (props) => {
                 <Stack.Screen name="AdjacencyMatrix" component={AdjacencyMatrix} options={{ headerTitle: 'Camera Connections', headerShown: false }} />
                 <Stack.Screen name="RestrictLocation" component={RestrictLocation} options={{ headerTitle: 'Restrict Location', headerShown: false }} />
                 <Stack.Screen name="SearchVisitor" component={SearchVisitor} options={{ headerTitle: 'Search Visitor', headerShown: false }} />
+                <Stack.Screen name="ReRoute" component={ReRoute} options={{ headerTitle: 'Re Route Visitor', headerShown: false }} />
+
+                <Stack.Screen name="DirectorDashboard" component={DirectorDashboard} options={{ headerTitle: 'Director Dashboard', headerShown: false }} />
+                <Stack.Screen name="TodayVisitors" component={TodayVisitors} options={{ headerTitle: 'Today Visitors', headerShown: false }} />
+                <Stack.Screen name="WeeklyVisitors" component={WeeklyVisitors} options={{ headerTitle: 'Weekly Visitors', headerShown: false }} />
+                <Stack.Screen name="SearchTodayVisitors" component={SearchTodayVisitors} options={{ headerTitle: 'Weekly Visitors', headerShown: false }} />
+                <Stack.Screen name="BlockedVisitors" component={BlockedVisitors} options={{ headerTitle: 'Blocked Visitors', headerShown: false }} />
+                <Stack.Screen name="VisitorDashboard" component={VisitorDashboard} options={{ headerTitle: 'Visitor Dashboard', headerShown: false }} />
 
             </Stack.Navigator>
         </NavigationContainer >

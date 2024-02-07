@@ -15,7 +15,7 @@ import {
 import { Color } from "../GlobalStyles";
 import { FontFamily } from "../GlobalStyles";
 import { FontSize } from "../GlobalStyles";
-import CustomPicker from "../Custom_Hayo/custom_picker_one_value";
+import CustomPicker from "../components/custom_picker_one_value";
 import url from "../ApiUrl";
 import Video from 'react-native-video';
 import { launchImageLibrary } from 'react-native-image-picker';

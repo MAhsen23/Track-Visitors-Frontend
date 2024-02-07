@@ -10,7 +10,7 @@ import {
     Image,
     TouchableOpacity,
 } from 'react-native';
-import CustomPicker from '../Custom_Hayo/custom_picker_without_search';
+import CustomPicker from '../components/custom_picker_without_search';
 import { FontFamily, Color } from '../GlobalStyles';
 import url from '../ApiUrl';
 import CheckBox from '@react-native-community/checkbox';

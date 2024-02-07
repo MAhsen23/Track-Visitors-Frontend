@@ -122,7 +122,7 @@ const Picker = ({ placeholder, width, height, options, selectedValue, onValueSel
                                             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
                                                 {labelKeys.map((key) =>
                                                 (
-                                                    <Text style={{ fontFamily: FontFamily.poppinsRegular, fontSize: 14, marginBottom: 1, paddingRight: 5, flex: (labelKeys.length === 2) ? 0 : 1 }}>
+                                                    <Text key={key} style={{ fontFamily: FontFamily.poppinsRegular, fontSize: 14, marginBottom: 1, paddingRight: 5, flex: (labelKeys.length === 2) ? 0 : 1 }}>
                                                         {option[key]}
                                                     </Text>
                                                 ))}
