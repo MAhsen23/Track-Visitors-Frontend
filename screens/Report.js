@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import { Color, FontFamily } from '../GlobalStyles';
-import url from '../ApiUrl';
 
 
 const App = (props) => {
@@ -46,7 +45,7 @@ const App = (props) => {
             if (!endDate) {
                 return
             }
-            const response = await fetch(`${url}GetVisitorsReport`, {
+            const response = await fetch(`${global.url}GetVisitorsReport`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',

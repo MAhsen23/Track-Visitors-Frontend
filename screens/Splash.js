@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import {
     Text,
     StyleSheet,
@@ -13,6 +13,7 @@ import { Color } from "../GlobalStyles";
 import { FontSize } from "../GlobalStyles";
 
 const Splash = (props) => {
+
     return (
         <View style={styles.splashscreenandroid}>
             <StatusBar

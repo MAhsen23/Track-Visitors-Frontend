@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, StyleSheet, ScrollView, Image } from 'react-native';
 import { FontFamily, Color } from "../GlobalStyles";
-import url from '../ApiUrl';
 
 const App = (props) => {
 
@@ -26,7 +25,7 @@ const App = (props) => {
     const fetchVisitPathHistory = async () => {
         try {
 
-            const response = await fetch(`${url}GetVisitPathHistory`, {
+            const response = await fetch(`${global.url}GetVisitPathHistory`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',

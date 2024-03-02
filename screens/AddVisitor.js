@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { Color, FontFamily, FontSize } from "../GlobalStyles";
 import ImagePicker from 'react-native-image-crop-picker';
-import url from '../ApiUrl';
+
 
 
 
@@ -49,7 +49,7 @@ const AddVisitor = (props) => {
                         });
                     });
 
-                    const response = await fetch(`${url}AddVisitor`, {
+                    const response = await fetch(`${global.url}AddVisitor`, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         },
@@ -159,42 +159,44 @@ const AddVisitor = (props) => {
                 <Text style={{ fontFamily: FontFamily.poppinsMedium, fontSize: 19.5, letterSpacing: .4, color: Color.lightsteelblue }}>REGISTER NEW VISITOR</Text>
                 <Image style={{ tintColor: Color.white, width: 30, height: 30, }} source={require('../assets/menu.png')} />
             </View >
-            <View style={innerView ? styles.blurContainer : styles.container}>
-                <Pressable style={styles.circleButton} onPress={handleTakePicture}>
-                    <Image style={{ marginBottom: 10, width: 40, height: 40, tintColor: Color.steelblue }} source={require('../assets/upload4.png')} />
-                    <Text style={styles.buttonText}>Upload Pictures</Text>
-                </Pressable>
+            <ScrollView style={{ backgroundColor: '#fff' }}>
+                <View style={innerView ? styles.blurContainer : styles.container}>
+                    <Pressable style={styles.circleButton} onPress={handleTakePicture}>
+                        <Image style={{ marginBottom: 10, width: 40, height: 40, tintColor: Color.steelblue }} source={require('../assets/upload4.png')} />
+                        <Text style={styles.buttonText}>Upload Pictures</Text>
+                    </Pressable>
 
-                <View style={styles.pictureContainer}>
-                    {images.map((picture, index) => (
-                        <View key={index} style={{ width: 60, height: 60, backgroundColor: '#fcfcfc', margin: 5, borderRadius: 100, justifyContent: "center", alignItems: "center", elevation: 2, }}>
-                            <Image
-                                key={index}
-                                source={{ uri: picture.path }}
-                                style={styles.takenPicture}
+                    <View style={styles.pictureContainer}>
+                        {images.map((picture, index) => (
+                            <View key={index} style={{ width: 60, height: 60, backgroundColor: '#fcfcfc', margin: 5, borderRadius: 100, justifyContent: "center", alignItems: "center", elevation: 2, }}>
+                                <Image
+                                    key={index}
+                                    source={{ uri: picture.path }}
+                                    style={styles.takenPicture}
+                                />
+                            </View>
+                        ))}
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <View style={styles.inputField}>
+                            <Text style={styles.labelText}>Visitor Name</Text>
+                            <TextInput style={styles.textInput} value={name} onChangeText={name => setName(name)} />
+                        </View>
+                        <View style={styles.inputField}>
+                            <Text style={styles.labelText}>Contact Information</Text>
+                            <TextInput
+                                style={styles.textInput}
+                                value={contact}
+                                onChangeText={contact => setContact(contact)}
                             />
                         </View>
-                    ))}
-                </View>
-                <View style={styles.inputContainer}>
-                    <View style={styles.inputField}>
-                        <Text style={styles.labelText}>Visitor Name</Text>
-                        <TextInput style={styles.textInput} value={name} onChangeText={name => setName(name)} />
                     </View>
-                    <View style={styles.inputField}>
-                        <Text style={styles.labelText}>Contact Information</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            value={contact}
-                            onChangeText={contact => setContact(contact)}
-                        />
-                    </View>
-                </View>
 
-                <Pressable style={styles.button} onPress={handleSubmit}>
-                    <Text style={styles.submitbuttonText}>Add Visitor</Text>
-                </Pressable>
-            </View>
+                    <Pressable style={styles.button} onPress={handleSubmit}>
+                        <Text style={styles.submitbuttonText}>Add Visitor</Text>
+                    </Pressable>
+                </View>
+            </ScrollView>
             {
                 innerView && (
                     <View style={styles.innerView}>

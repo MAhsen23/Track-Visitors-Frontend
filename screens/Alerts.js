@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Pressable, Image, StyleSheet, FlatList } from "react-native";
-import url from "../ApiUrl";
 import { FontFamily, Color } from "../GlobalStyles";
 
 const Alerts = (props) => {
@@ -16,7 +15,7 @@ const Alerts = (props) => {
 
     const fetchAlerts = async () => {
         try {
-            const response = await fetch(`${url}GetAllAlerts`);
+            const response = await fetch(`${global.url}GetAllAlerts`);
             if (response.ok) {
                 const data = await response.json();
                 setAlerts(data);

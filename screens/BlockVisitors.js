@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import { FontFamily } from '../GlobalStyles';
 import { Color } from '../GlobalStyles';
-import url from '../ApiUrl';
 import CustomPicker from '../components/custom_picker_one_value';
 
 import DatePicker from 'react-native-modern-datepicker';
@@ -62,7 +61,7 @@ const BlockedVisitorScreen = (props) => {
 
     const fetchVisitors = async () => {
         try {
-            const response = await fetch(`${url}GetAllVisitors`);
+            const response = await fetch(`${global.url}GetAllVisitors`);
             if (response.ok) {
                 const data = await response.json();
                 setVisitors(data);
@@ -80,7 +79,7 @@ const BlockedVisitorScreen = (props) => {
 
     const fetchBlockVisitors = async () => {
         try {
-            const response = await fetch(`${url}GetBlockVisitors`);
+            const response = await fetch(`${global.url}GetBlockVisitors`);
             if (response.ok) {
                 const data = await response.json();
                 setBlockedVisitors(data);
@@ -140,7 +139,7 @@ const BlockedVisitorScreen = (props) => {
             formData.append('end_date', endDate);
             formData.append('visitor_id', visitor_id)
 
-            const response = await fetch(`${url}BlockVisitor`, {
+            const response = await fetch(`${global.url}BlockVisitor`, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },
@@ -167,7 +166,7 @@ const BlockedVisitorScreen = (props) => {
 
     const unblockVisitor = async (visitor_id) => {
         try {
-            const response = await fetch(`${url}UnblockVisitor`, {
+            const response = await fetch(`${global.url}UnblockVisitor`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',

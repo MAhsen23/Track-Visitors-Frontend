@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { View, TouchableOpacity, FlatList, Modal, Text, Image, TextInput, Alert, Pressable, StyleSheet } from "react-native";
 import { FontFamily, Color } from '../GlobalStyles';
-import url from '../ApiUrl';
 import CustomDropdown from '../components/multi_value_picker';
 import DatePicker from 'react-native-modern-datepicker';
 import CustomTimePicker from "../components/time_picker";
@@ -40,7 +39,7 @@ const App = () => {
 
     const fetchRestrictedLocations = async () => {
         try {
-            const response = await fetch(`${url}GetRestrictedLocations`);
+            const response = await fetch(`${global.url}GetRestrictedLocations`);
             if (response.ok) {
                 const data = await response.json();
                 setRestrictedLocations(data);
@@ -62,7 +61,7 @@ const App = () => {
                 return;
             }
             else {
-                const response = await fetch(`${url}RestrictLocation`, {
+                const response = await fetch(`${global.url}RestrictLocation`, {
                     method: 'POST',
                     headers: {
                         Accept: 'application/json',
@@ -111,7 +110,7 @@ const App = () => {
 
     const fetchLocations = async () => {
         try {
-            const response = await fetch(`${url}GetAllLocations`);
+            const response = await fetch(`${global.url}GetAllLocations`);
             if (response.ok) {
                 const data = await response.json();
                 setLocations(data);
@@ -139,7 +138,7 @@ const App = () => {
 
     const permitLocation = async (id) => {
         try {
-            const response = await fetch(`${url}PermitLocation?location_id=${id}`);
+            const response = await fetch(`${global.url}PermitLocation?location_id=${id}`);
             if (response.ok) {
                 Alert.alert('Success', 'Location permitted successfully.');
                 fetchRestrictedLocations();

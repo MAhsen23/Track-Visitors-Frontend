@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import { FontFamily } from '../GlobalStyles';
 import { Color } from '../GlobalStyles';
-import url from '../ApiUrl';
 import CustomPicker from '../components/custom_picker_one_value';
 
 import DatePicker from 'react-native-modern-datepicker';
@@ -44,7 +43,7 @@ const App = (props) => {
 
     const fetchBlockVisitors = async () => {
         try {
-            const response = await fetch(`${url}GetBlockVisitors`);
+            const response = await fetch(`${global.url}GetBlockVisitors`);
             if (response.ok) {
                 const data = await response.json();
                 setBlockedVisitors(data);

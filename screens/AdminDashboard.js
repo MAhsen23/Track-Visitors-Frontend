@@ -1,7 +1,20 @@
-import * as React from "react";
+import React from "react";
 import { Text, BackHandler, StatusBar, StyleSheet, View, Image, Pressable, ScrollView } from "react-native";
 import { FontFamily, Color } from "../GlobalStyles";
 
+
+const CustomButton = ({ onPress, iconSource, text }) => {
+    return (
+        <Pressable onPress={onPress} style={styles.button}>
+            <Image
+                style={styles.icon}
+                resizeMode="cover"
+                source={iconSource}
+            />
+            <Text style={styles.buttonText}>{text}</Text>
+        </Pressable>
+    );
+};
 
 const App = (props) => {
     const { name, id } = props.route.params;
@@ -35,127 +48,20 @@ const App = (props) => {
                         />
                     </Pressable>
                 </View>
-                <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, backgroundColor: 'white' }}>
+                <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
                     <View style={styles.buttonContainer}>
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 20 }}>
-                            <Pressable onPress={() => props.navigation.navigate('Users')} style={styles.buttons}>
-                                <Image
-                                    style={styles.icons}
-                                    resizeMode="cover"
-                                    source={require("../assets/userIcon.png")}
-                                />
-                                <Text style={styles.buttonsText}>Users</Text>
-                            </Pressable>
-                            <Pressable onPress={() => props.navigation.navigate('Floors')} style={styles.buttonsRight}>
-                                <Image
-                                    style={styles.icons}
-                                    resizeMode="cover"
-                                    source={require("../assets/floor.png")}
-                                />
-                                <Text style={styles.buttonsText}>Floors</Text>
-                            </Pressable>
-                        </View>
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 20 }}>
-                            <Pressable onPress={() => props.navigation.navigate('Locations')} style={styles.buttons}>
-                                <Image
-                                    style={styles.icons}
-                                    resizeMode="cover"
-                                    source={require("../assets/locationicon.png")}
-                                />
-                                <Text style={styles.buttonsText}>Locations</Text>
-                            </Pressable>
-
-                            <Pressable onPress={() => props.navigation.navigate('Cameras')} style={styles.buttonsRight}>
-                                <Image
-                                    style={styles.icons}
-                                    resizeMode="cover"
-                                    source={require("../assets/cameraicon.png")}
-                                />
-                                <Text style={styles.buttonsText}>Cameras</Text>
-                            </Pressable>
-                        </View>
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 20 }}>
-                            <Pressable onPress={() => props.navigation.navigate('AdjacencyMatrix')} style={styles.buttons}>
-                                <Image
-                                    style={styles.icons}
-                                    resizeMode="cover"
-                                    source={require("../assets/connect.png")}
-                                />
-                                <Text style={styles.buttonsText}>Camera links</Text>
-                            </Pressable>
-                            <Pressable style={styles.buttonsRight} onPress={() => props.navigation.navigate('BlockVisitors', { id })}>
-                                <Image
-                                    style={styles.icons}
-                                    resizeMode="cover"
-                                    source={require("../assets/unavailable.png")}
-                                />
-                                <Text style={styles.buttonsText}>Block Visitors</Text>
-                            </Pressable>
-
-                        </View>
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 20 }}>
-                            <Pressable onPress={() => { props.navigation.navigate('Report') }} style={styles.buttons}>
-                                <Image
-                                    style={styles.icons}
-                                    resizeMode="cover"
-                                    source={require("../assets/reporticon.png")}
-                                />
-                                <Text style={styles.buttonsText}>Report</Text>
-                            </Pressable>
-                            {/* <Pressable style={styles.buttonsRight} onPress={() => props.navigation.navigate('ProcessVideo')}>
-                                <Image
-                                    style={styles.icons}
-                                    resizeMode="cover"
-                                    source={require("../assets/spam.png")}
-                                />
-                                <Text style={styles.buttonsText}>Process Video</Text>
-                            </Pressable> */}
-
-                            <Pressable onPress={() => props.navigation.navigate('CurrentVisitors')} style={styles.buttonsRight}>
-                                <Image
-                                    style={styles.icons}
-                                    resizeMode="cover"
-                                    source={require("../assets/listicon.png")}
-                                />
-                                <Text style={styles.buttonsText}>Current Visitors</Text>
-                            </Pressable>
-                        </View>
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 20 }}>
-                            <Pressable style={styles.buttons} onPress={() => props.navigation.navigate('GuardsLocation')}>
-                                <Image
-                                    style={styles.icons}
-                                    resizeMode="cover"
-                                    source={require("../assets/assign.png")}
-                                />
-                                <Text style={styles.buttonsText}>Guards Location</Text>
-                            </Pressable>
-                            <Pressable onPress={() => props.navigation.navigate('CheckPaths')} style={styles.buttonsRight}>
-                                <Image
-                                    style={styles.icons}
-                                    resizeMode="cover"
-                                    source={require("../assets/path_64px.png")}
-                                />
-                                <Text style={styles.buttonsText}>Paths</Text>
-                            </Pressable>
-                        </View>
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 20 }}>
-                            <Pressable style={styles.buttons} onPress={() => props.navigation.navigate('RestrictLocation')}>
-                                <Image
-                                    style={styles.icons}
-                                    resizeMode="cover"
-                                    source={require("../assets/location_off.png")}
-                                />
-                                <Text style={styles.buttonsText}>Restrict Location</Text>
-                            </Pressable>
-                            <Pressable onPress={() => props.navigation.navigate('SearchVisitor')} style={styles.buttonsRight}>
-                                <Image
-                                    style={[styles.icons, { tintColor: '#fff' }]}
-                                    resizeMode="cover"
-                                    source={require("../assets/search2.png")}
-                                />
-                                <Text style={styles.buttonsText}>Search Visitor</Text>
-                            </Pressable>
-                        </View>
+                        <CustomButton onPress={() => props.navigation.navigate('Users')} iconSource={require("../assets/userIcon.png")} text="Users" />
+                        <CustomButton onPress={() => props.navigation.navigate('Floors')} iconSource={require("../assets/floor.png")} text="Floors" />
+                        <CustomButton onPress={() => props.navigation.navigate('Locations')} iconSource={require("../assets/locationicon.png")} text="Locations" />
+                        <CustomButton onPress={() => props.navigation.navigate('Cameras')} iconSource={require("../assets/cameraicon.png")} text="Cameras" />
+                        <CustomButton onPress={() => props.navigation.navigate('AdjacencyMatrix')} iconSource={require("../assets/connect.png")} text="Camera Links" />
+                        <CustomButton onPress={() => props.navigation.navigate('BlockVisitors', { id })} iconSource={require("../assets/unavailable.png")} text="Block Visitors" />
+                        <CustomButton onPress={() => { props.navigation.navigate('Report') }} iconSource={require("../assets/reporticon.png")} text="Report" />
+                        <CustomButton onPress={() => props.navigation.navigate('CurrentVisitors')} iconSource={require("../assets/listicon.png")} text="Current Visitors" />
+                        <CustomButton onPress={() => props.navigation.navigate('GuardsLocation')} iconSource={require("../assets/assign.png")} text="Guards Location" />
+                        <CustomButton onPress={() => props.navigation.navigate('CheckPaths')} iconSource={require("../assets/path_64px.png")} text="Paths" />
+                        <CustomButton onPress={() => props.navigation.navigate('RestrictLocation')} iconSource={require("../assets/location_off.png")} text="Restrict Location" />
+                        <CustomButton onPress={() => props.navigation.navigate('SearchVisitor')} iconSource={require("../assets/search2.png")} text="Search Visitor" />
                     </View>
                 </ScrollView >
             </View>
@@ -163,43 +69,39 @@ const App = (props) => {
     );
 }
 
-
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
     },
     buttonContainer: {
+        paddingHorizontal: 20,
         paddingBottom: 20,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
     },
-    buttons: {
-        width: '40%',
-        height: 150,
-        backgroundColor: "#8CD6FA",
-        borderRadius: 8,
-        padding: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 30,
+    button: {
+        width: '45%',
+        height: 115,
         elevation: 2,
-    },
-    buttonsRight: {
-        width: '40%',
-        height: 150,
-        backgroundColor: "#8CD6FA",
-        borderRadius: 8,
-        padding: 10,
-        justifyContent: 'center',
+        backgroundColor: '#fcfcfc',
+        marginHorizontal: 5,
+        marginVertical: 10,
+        borderRadius: 10,
         alignItems: 'center',
-        marginRight: 30,
-        elevation: 2,
+        justifyContent: 'center',
     },
-    buttonsText: {
-        color: '#ffffff',
-        fontSize: 19,
-        fontWeight: "500",
-        fontFamily: FontFamily.poppinsMedium,
-        textAlign: "center"
+    buttonText: {
+        fontFamily: FontFamily.poppinsRegular,
+        fontSize: 14,
+    },
+    icon: {
+        width: 40,
+        height: 40,
+        marginBottom: 10,
+        tintColor: '#757575',
+        opacity: 0.8,
     },
     logout: {
         color: '#0081A7',
@@ -219,6 +121,6 @@ styles = StyleSheet.create({
     welcomeContainer: {
         marginBottom: 15,
     },
-})
+});
 
 export default App;

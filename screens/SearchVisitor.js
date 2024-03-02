@@ -5,7 +5,6 @@ import {
 } from 'react-native';
 import HeaderBar from '../components/header_bar'
 import Picker from "../components/one_value_picker_with_mul_labels";
-import url from "../ApiUrl";
 import { FontFamily } from "../GlobalStyles";
 
 const App = () => {
@@ -29,7 +28,7 @@ const App = () => {
 
     const fetchVisitorReport = async () => {
         try {
-            const response = await fetch(`${url}GetVisitorReport?id=${selectedVisitor}`);
+            const response = await fetch(`${global.url}GetVisitorReport?id=${selectedVisitor}`);
             if (response.ok) {
                 const data = await response.json();
                 setReports(data.visitor_report);
@@ -45,7 +44,7 @@ const App = () => {
 
     const fetchVisitors = async () => {
         try {
-            const response = await fetch(`${url}GetAllVisitors`);
+            const response = await fetch(`${global.url}GetAllVisitors`);
             if (response.ok) {
                 const data = await response.json();
                 setVisitors(data);

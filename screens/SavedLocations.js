@@ -10,7 +10,6 @@ import {
     Image,
 } from 'react-native';
 import { FontFamily, Color } from '../GlobalStyles';
-import url from '../ApiUrl';
 
 
 const App = (props) => {
@@ -32,7 +31,7 @@ const App = (props) => {
 
     const fetchLocations = async () => {
         try {
-            const response = await fetch(`${url}GetAllLocations`);
+            const response = await fetch(`${global.url}GetAllLocations`);
             if (response.ok) {
                 const data = await response.json();
                 setLocations(data);
@@ -49,7 +48,7 @@ const App = (props) => {
 
     const deleteLocation = async (id) => {
         try {
-            const response = await fetch(`${url}/DeleteLocation/${id}`, {
+            const response = await fetch(`${global.url}/DeleteLocation/${id}`, {
                 method: 'DELETE',
                 headers: {
                     Accept: 'application/json',

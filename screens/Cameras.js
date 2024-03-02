@@ -13,7 +13,6 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import { FontFamily, Color } from '../GlobalStyles';
-import url from '../ApiUrl';
 import CustomDropdown from '../components/multi_value_picker';
 
 
@@ -59,7 +58,7 @@ const MyScreen = (props) => {
 
     const fetchCameras = async () => {
         try {
-            const response = await fetch(`${url}GetAllCameras`);
+            const response = await fetch(`${global.url}GetAllCameras`);
             if (response.ok) {
                 const data = await response.json();
                 setCameras(data);
@@ -98,7 +97,7 @@ const MyScreen = (props) => {
             }
         })
         try {
-            const response = await fetch(`${url}UpdateCamera/${editCameraId}`, {
+            const response = await fetch(`${global.url}UpdateCamera/${editCameraId}`, {
                 method: 'PUT',
                 headers: {
                     Accept: 'application/json',
@@ -157,7 +156,7 @@ const MyScreen = (props) => {
 
     const fetchLocations = async () => {
         try {
-            const response = await fetch(`${url}GetAllLocations`);
+            const response = await fetch(`${global.url}GetAllLocations`);
             if (response.ok) {
                 const data = await response.json();
                 setLocations(data);
@@ -194,7 +193,7 @@ const MyScreen = (props) => {
             }
         })
         try {
-            const response = await fetch(`${url}AddCamera`, {
+            const response = await fetch(`${global.url}AddCamera`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',

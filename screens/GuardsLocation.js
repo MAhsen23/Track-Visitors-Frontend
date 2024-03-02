@@ -12,7 +12,6 @@ import {
     Alert,
 } from "react-native";
 import { Color, FontFamily, FontSize } from "../GlobalStyles";
-import url from '../ApiUrl';
 
 import { Dropdown } from 'react-native-element-dropdown';
 
@@ -45,7 +44,7 @@ const App = (props) => {
 
     const fetchGuards = async () => {
         try {
-            const response = await fetch(`${url}GetAllGuardsLocation`);
+            const response = await fetch(`${global.url}GetAllGuardsLocation`);
             if (response.ok) {
                 const data = await response.json();
                 setGuards(data);
@@ -70,7 +69,7 @@ const App = (props) => {
             return;
         }
         try {
-            const response = await fetch(`${url}AllocateDutyLocation/${selectedGuard.id}`, {
+            const response = await fetch(`${global.url}AllocateDutyLocation/${selectedGuard.id}`, {
                 method: 'PUT',
                 headers: {
                     Accept: 'application/json',
@@ -98,7 +97,7 @@ const App = (props) => {
 
     const fetchLocations = async () => {
         try {
-            const response = await fetch(`${url}GetAllLocations`);
+            const response = await fetch(`${global.url}GetAllLocations`);
             if (response.ok) {
                 const data = await response.json();
                 const newdata = data.filter((item) => item.type === "Gate")

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Pressable, Alert, Dimensions, StyleSheet, Text } from 'react-native';
 import Video from 'react-native-video';
 import { launchImageLibrary } from 'react-native-image-picker';
-import url from '../ApiUrl';
 import { FontFamily } from '../GlobalStyles';
 
 const App = (props) => {
@@ -47,7 +46,7 @@ const App = (props) => {
         });
 
         try {
-            const response = await fetch(`${url}ShowVisitors`, {
+            const response = await fetch(`${global.url}ShowVisitors`, {
                 method: 'POST',
                 body: formData,
                 headers: {

@@ -16,7 +16,6 @@ import { Color } from "../GlobalStyles";
 import { FontFamily } from "../GlobalStyles";
 import { FontSize } from "../GlobalStyles";
 import CustomPicker from "../components/custom_picker_one_value";
-import url from "../ApiUrl";
 import Video from 'react-native-video';
 import { launchImageLibrary } from 'react-native-image-picker';
 
@@ -94,7 +93,7 @@ const App = () => {
         );
 
         try {
-            const response = await fetch(`${url}CheckVisitorIsPresent`, {
+            const response = await fetch(`${global.url}CheckVisitorIsPresent`, {
                 method: 'POST',
                 body: formData,
                 headers: {

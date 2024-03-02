@@ -4,7 +4,6 @@ import {
     StyleSheet, ScrollView, Text, FlatList, Pressable,
 } from 'react-native';
 import HeaderBar from '../components/header_bar'
-import url from "../ApiUrl";
 import { FontFamily } from "../GlobalStyles";
 
 const App = () => {
@@ -21,7 +20,7 @@ const App = () => {
 
     const fetchVisitors = async () => {
         try {
-            const response = await fetch(`${url}GetTodayVisitors`);
+            const response = await fetch(`${global.url}GetTodayVisitors`);
             if (response.ok) {
                 const data = await response.json();
                 setVisitors(data);

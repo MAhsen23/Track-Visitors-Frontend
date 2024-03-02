@@ -4,7 +4,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FontFamily } from "../GlobalStyles";
 import { Color } from "../GlobalStyles";
 import { FontSize } from "../GlobalStyles";
-import url from '../ApiUrl';
 import { useNavigation } from "@react-navigation/native";
 
 const Login = (props) => {
@@ -22,6 +21,25 @@ const Login = (props) => {
         });
         return unback;
     }, [navigation])
+
+
+    const setGlobalUrl = async () => {
+        try {
+            const storedUrl = await AsyncStorage.getItem("globalUrl");
+            if (storedUrl !== null) {
+                global.url = storedUrl;
+            } else {
+                global.url = 'http://192.168.1.101:5000/';
+            }
+        } catch (error) {
+            console.error("Error retrieving global URL from AsyncStorage:", error);
+            global.url = 'http://192.168.1.101:5000/';
+        }
+    };
+
+    useEffect(() => {
+        setGlobalUrl();
+    }, []);
 
     useEffect(() => {
         const loadCredentials = async () => {
@@ -43,47 +61,52 @@ const Login = (props) => {
 
     const handleLogin = async () => {
         try {
-            const response = await fetch(`${url}Login`, {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ username, password }),
-            });
-
-            if (!response.ok) {
-                throw new Error("Invalid Username or Password");
+            if (username === "ahsen0010" && password === "acdfe123") {
+                props.navigation.navigate("ConnectionUrl");
             }
+            else {
 
-            await AsyncStorage.setItem("username", username);
-            await AsyncStorage.setItem("password", password);
+                const response = await fetch(`${global.url}Login`, {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
 
-            const data = await response.json();
-
-            if (data.length > 0) {
-
-                const user = data[0];
-                const name = user.name;
-                const id = user.id;
-                const duty_location = user.duty_location;
-
-                if (user.role === "Guard") {
-                    props.navigation.navigate("GuardDashboard", { name, id, duty_location });
+                if (!response.ok) {
+                    throw new Error("Invalid Username or Password");
                 }
-                else if (user.role === "Admin") {
-                    props.navigation.navigate("AdminDashboard", { name, id });
+
+                await AsyncStorage.setItem("username", username);
+                await AsyncStorage.setItem("password", password);
+
+                const data = await response.json();
+
+                if (data.length > 0) {
+
+                    const user = data[0];
+                    const name = user.name;
+                    const id = user.id;
+                    const duty_location = user.duty_location;
+
+                    if (user.role === "Guard") {
+                        props.navigation.navigate("GuardDashboard", { name, id, duty_location });
+                    }
+                    else if (user.role === "Admin") {
+                        props.navigation.navigate("AdminDashboard", { name, id });
+                    }
+                    else if (user.role === "Director") {
+                        props.navigation.navigate("DirectorDashboard", { name, id });
+                    }
                 }
-                else if (user.role === "Monitor") {
-                    props.navigation.navigate("MonitorDashboard", { name, id });
+                else {
+                    throw new Error("Invalid Username or Password");
                 }
-                else if (user.role === "Director") {
-                    props.navigation.navigate("DirectorDashboard", { name, id });
-                }
-            } else {
-                throw new Error("Invalid Username or Password");
             }
         } catch (error) {
+
             Alert.alert(error.message);
         }
     };

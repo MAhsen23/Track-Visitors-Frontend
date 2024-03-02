@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, TouchableOpacity, Modal, FlatList, Text, StyleSheet, Pressable, Button } from 'react-native';
-import url from '../ApiUrl';
 import { FontFamily } from '../GlobalStyles';
 
 const ResultedFrames = (props) => {
@@ -10,7 +9,7 @@ const ResultedFrames = (props) => {
     const fetchImages = async () => {
         try {
             const timestamp = new Date().getTime();
-            const response = await fetch(`${url}image_list?timestamp=${timestamp}`);
+            const response = await fetch(`${global.url}image_list?timestamp=${timestamp}`);
             const data = await response.json();
             setImageList(data.images);
         } catch (error) {
@@ -27,7 +26,7 @@ const ResultedFrames = (props) => {
             <View style={{ paddingVertical: 8, paddingHorizontal: 20, }}>
                 <Image
                     style={{ width: "100%", height: 235, borderRadius: 5, }}
-                    source={{ uri: `${url}images/${item}?timestamp=${new Date().getTime()}` }}
+                    source={{ uri: `${global.url}images/${item}?timestamp=${new Date().getTime()}` }}
                 />
             </View>
         </TouchableOpacity>
@@ -51,7 +50,7 @@ const ResultedFrames = (props) => {
                     <Button title='Close' onPress={() => { setSelectedImage(null) }} />
                     {selectedImage && (
                         <Image
-                            source={{ uri: `${url}images/${selectedImage}?timestamp=${new Date().getTime()}` }}
+                            source={{ uri: `${global.url}images/${selectedImage}?timestamp=${new Date().getTime()}` }}
                             style={styles.fullImage}
                             resizeMode="contain"
                         />

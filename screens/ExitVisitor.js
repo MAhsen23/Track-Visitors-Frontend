@@ -3,7 +3,6 @@ import { StyleSheet, TextInput, Alert, ActivityIndicator, Pressable, Image, Text
 import CustomPicker from '../components/custom_picker_one_value';
 import { FontFamily } from '../GlobalStyles';
 import { Color } from '../GlobalStyles';
-import url from '../ApiUrl';
 
 
 const ExitVisitor = (props) => {
@@ -64,7 +63,7 @@ const ExitVisitor = (props) => {
 
     const fetchVisitors = async () => {
         try {
-            const response = await fetch(`${url}GetCurrentVisitors`);
+            const response = await fetch(`${global.url}GetCurrentVisitors`);
             if (response.ok) {
                 const data = await response.json();
                 setVisitors(data);
@@ -103,7 +102,7 @@ const ExitVisitor = (props) => {
         }
 
         try {
-            const response = await fetch(`${url}EndVisit`, {
+            const response = await fetch(`${global.url}EndVisit`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -153,7 +152,7 @@ const ExitVisitor = (props) => {
         setVisitorEntryTime(entry_time);
 
         try {
-            const response = await fetch(`${url}VisitorImages/${item.id}`);
+            const response = await fetch(`${global.url}VisitorImages/${item.id}`);
             if (response.ok) {
                 const data = await response.json();
                 setVisitorImage(data.image);

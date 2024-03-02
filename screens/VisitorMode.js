@@ -5,7 +5,6 @@ import {
 } from 'react-native';
 import HeaderBar from '../components/header_bar'
 import Picker from "../components/one_value_picker_with_mul_labels";
-import url from "../ApiUrl";
 import { Color, FontFamily } from "../GlobalStyles";
 import CustomDropdown from '../components/multi_value_picker';
 import OneValueDropDown from '../components/one_value_picker'
@@ -32,7 +31,7 @@ const App = (props) => {
 
     const fetchVisitDestinations = async () => {
         try {
-            const response = await fetch(`${url}GetVisitDestinations?id=${selectedVisitor}`);
+            const response = await fetch(`${global.url}GetVisitDestinations?id=${selectedVisitor}`);
             if (response.ok) {
                 const data = await response.json();
                 console.log(data.visit_destinations)
@@ -49,7 +48,7 @@ const App = (props) => {
 
     const fetchCurrentVisitors = async () => {
         try {
-            const response = await fetch(`${url}GetCurrentVisitors`);
+            const response = await fetch(`${global.url}GetCurrentVisitors`);
             if (response.ok) {
                 const data = await response.json();
                 setCurrentVisitors(data);

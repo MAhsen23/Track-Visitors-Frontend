@@ -13,7 +13,6 @@ import {
     Animated,
 } from 'react-native';
 import { FontFamily } from '../GlobalStyles';
-import url from '../ApiUrl';
 import { Color } from '../GlobalStyles';
 import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
 import { Dropdown } from 'react-native-element-dropdown';
@@ -57,7 +56,7 @@ const MyScreen = (props) => {
 
     const fetchUsers = async () => {
         try {
-            const response = await fetch(`${url}GetAllUsers`);
+            const response = await fetch(`${global.url}GetAllUsers`);
             if (response.ok) {
                 const data = await response.json();
                 setUsers(data);
@@ -94,7 +93,7 @@ const MyScreen = (props) => {
 
     const deleteUser = async (id) => {
         try {
-            const response = await fetch(`${url}/DeleteUser/${id}`, {
+            const response = await fetch(`${global.url}/DeleteUser/${id}`, {
                 method: 'DELETE',
                 headers: {
                     Accept: 'application/json',
@@ -130,7 +129,7 @@ const MyScreen = (props) => {
         }
 
         try {
-            const response = await fetch(`${url}AddUser`, {
+            const response = await fetch(`${global.url}AddUser`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -168,7 +167,7 @@ const MyScreen = (props) => {
             return;
         }
         try {
-            const response = await fetch(`${url}/UpdateUser/${editUserId}`, {
+            const response = await fetch(`${global.url}/UpdateUser/${editUserId}`, {
                 method: 'PUT',
                 headers: {
                     Accept: 'application/json',

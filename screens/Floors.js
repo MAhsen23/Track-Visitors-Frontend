@@ -13,7 +13,6 @@ import {
     Animated,
 } from 'react-native';
 import { Color, FontFamily } from '../GlobalStyles';
-import url from '../ApiUrl';
 import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
 
 const MyScreen = (props) => {
@@ -41,7 +40,7 @@ const MyScreen = (props) => {
 
     const fetchFloors = async () => {
         try {
-            const response = await fetch(`${url}GetAllFloors`);
+            const response = await fetch(`${global.url}GetAllFloors`);
             if (response.ok) {
                 const data = await response.json();
                 setFloors(data);
@@ -74,7 +73,7 @@ const MyScreen = (props) => {
         }
 
         try {
-            const response = await fetch(`${url}/AddFloor`, {
+            const response = await fetch(`${global.url}/AddFloor`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -104,7 +103,7 @@ const MyScreen = (props) => {
             return;
         }
         try {
-            const response = await fetch(`${url}/UpdateFloor/${editFloorId}`, {
+            const response = await fetch(`${global.url}/UpdateFloor/${editFloorId}`, {
                 method: 'PUT',
                 headers: {
                     Accept: 'application/json',
@@ -131,7 +130,7 @@ const MyScreen = (props) => {
 
     const deleteFloor = async (id) => {
         try {
-            const response = await fetch(`${url}DeleteFloor/${id}`, {
+            const response = await fetch(`${global.url}DeleteFloor/${id}`, {
                 method: 'DELETE',
                 headers: {
                     Accept: 'application/json',

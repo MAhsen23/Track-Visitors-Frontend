@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { View, Modal, Text, TextInput, Image, Pressable, Alert, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import { Color, FontFamily, FontSize } from "../GlobalStyles";
-import url from '../ApiUrl';
 import { launchImageLibrary } from 'react-native-image-picker';
 import CustomPickerWithoutSearch from "../components/custom_picker_without_search";
 
@@ -85,7 +84,7 @@ const PathScreen = (props) => {
 
     const fetchCameras = async () => {
         try {
-            const response = await fetch(`${url}GetAllCameras`);
+            const response = await fetch(`${global.url}GetAllCameras`);
             if (response.ok) {
                 const data = await response.json();
                 setCameras(data);
@@ -119,7 +118,7 @@ const PathScreen = (props) => {
         });
 
         try {
-            const response = await fetch(`${url}CheckVisitorIsPresent`, {
+            const response = await fetch(`${global.url}CheckVisitorIsPresent`, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -205,7 +204,7 @@ const PathScreen = (props) => {
             return;
         }
         try {
-            const response = await fetch(`${url}GetDetectedFrame/${visitorId}/${camera}?timestamp=${new Date().getTime()}`);
+            const response = await fetch(`${global.url}GetDetectedFrame/${visitorId}/${camera}?timestamp=${new Date().getTime()}`);
             if (response.ok) {
                 const data = await response.json();
                 setFrameImage(data.image);

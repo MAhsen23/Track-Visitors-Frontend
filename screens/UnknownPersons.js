@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, Alert, View, Image, Dimensions, Pressable, ScrollView, Modal, TouchableOpacity, VirtualizedList } from "react-native";
 import { FontFamily, Color } from "../GlobalStyles";
-import url from '../ApiUrl';
+
 import SingleValueCusDropdown from '../components/one_value_picker'
 import CalendarPicker from 'react-native-calendar-picker';
 import { FlatList } from "react-native-gesture-handler";
@@ -31,7 +31,7 @@ const App = (props) => {
 
     const fetchCameras = async () => {
         try {
-            const response = await fetch(`${url}GetAllCameras`);
+            const response = await fetch(`${global.url}GetAllCameras`);
             if (response.ok) {
                 const data = await response.json();
                 setCameras(data);
@@ -51,7 +51,7 @@ const App = (props) => {
         try {
             console.log(start_date, end_date)
             setIsFetching(true);
-            const response = await fetch(`${url}GetDumpImages?camera=${camera}&start_date=${formatDate(start_date)}&end_date=${formatDate(end_date)}`);
+            const response = await fetch(`${global.url}GetDumpImages?camera=${camera}&start_date=${formatDate(start_date)}&end_date=${formatDate(end_date)}`);
             if (response.ok) {
                 const data = await response.json();
                 setImages(data.images);
@@ -208,7 +208,7 @@ const App = (props) => {
                     <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: '#efefef' }}>
                         {images.length > 0 && selectedImageIndex >= 0 && selectedImageIndex < images.length && (
                             <Image
-                                source={{ uri: `${url}GetDumpImage?path=${images[selectedImageIndex].full_path}` }}
+                                source={{ uri: `${global.url}GetDumpImage?path=${images[selectedImageIndex].full_path}` }}
                                 style={{ width: '100%', height: '90%', resizeMode: 'contain' }}
                             />
                         )}

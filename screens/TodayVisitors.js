@@ -4,7 +4,6 @@ import {
     StyleSheet, ScrollView, Text, FlatList, Pressable, Alert,
 } from 'react-native';
 import HeaderBar from '../components/header_bar'
-import url from "../ApiUrl";
 import { Color, FontFamily } from "../GlobalStyles";
 
 const App = (props) => {
@@ -21,7 +20,7 @@ const App = (props) => {
 
     const fetchVisitors = async () => {
         try {
-            const response = await fetch(`${url}GetTodayVisitors`);
+            const response = await fetch(`${global.url}GetTodayVisitors`);
             if (response.ok) {
                 const data = await response.json();
                 setVisitors(data);
@@ -36,7 +35,7 @@ const App = (props) => {
 
     const blockVisitor = async (visitor_id) => {
         try {
-            const response = await fetch(`${url}BlockVisitorForDay?id=${visitor_id}&user_id=${id}`);
+            const response = await fetch(`${global.url}BlockVisitorForDay?id=${visitor_id}&user_id=${id}`);
             if (response.ok) {
                 Alert.alert('Success', 'Visitor blocked successfully.');
                 fetchVisitors();

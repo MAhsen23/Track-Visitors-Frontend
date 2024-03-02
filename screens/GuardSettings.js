@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { Text, StatusBar, StyleSheet, View, Image, Pressable, ScrollView, Alert } from "react-native";
 import { FontFamily, Color } from "../GlobalStyles";
 import { Dropdown } from 'react-native-element-dropdown';
-import url from '../ApiUrl';
 
 const App = (props) => {
 
@@ -30,7 +29,7 @@ const App = (props) => {
 
     const fetchGuardsData = async () => {
         try {
-            const response = await fetch(`${url}GetUser/${id}`);
+            const response = await fetch(`${global.url}GetUser/${id}`);
             if (response.ok) {
                 const data = await response.json();
                 setGuard(data[0]);
@@ -46,7 +45,7 @@ const App = (props) => {
 
     const updateDutyLocation = async () => {
         try {
-            const response = await fetch(`${url}AllocateDutyLocation/${guard.id}`, {
+            const response = await fetch(`${global.url}AllocateDutyLocation/${guard.id}`, {
                 method: 'PUT',
                 headers: {
                     Accept: 'application/json',
@@ -73,7 +72,7 @@ const App = (props) => {
 
     const fetchLocations = async () => {
         try {
-            const response = await fetch(`${url}GetAllLocations`);
+            const response = await fetch(`${global.url}GetAllLocations`);
             if (response.ok) {
                 const data = await response.json();
                 const newdata = data.filter((item) => item.type === "Gate")

@@ -13,7 +13,7 @@ import {
 import { Color } from "../GlobalStyles";
 import { FontFamily } from "../GlobalStyles";
 import CustomPickerOneValue from "../components/custom_picker_one_value";
-import url from "../ApiUrl";
+
 import ImagePicker from 'react-native-image-crop-picker';
 import CustomDropdown from "../components/multi_value_picker";
 
@@ -68,7 +68,7 @@ const App = (props) => {
 
     const fetchDestinations = async () => {
         try {
-            const response = await fetch(`${url}GetAllLocations`);
+            const response = await fetch(`${global.url}GetAllLocations`);
             if (response.ok) {
                 const data = await response.json();
                 setDestinations(data);
@@ -85,7 +85,7 @@ const App = (props) => {
 
     const fetchDutyLocation = async () => {
         try {
-            const response = await fetch(`${url}GetGuardDutyLocation/${id}`);
+            const response = await fetch(`${global.url}GetGuardDutyLocation/${id}`);
             if (response.ok) {
                 const data = await response.json();
                 setDutyLocation(data.duty_location)
@@ -111,7 +111,7 @@ const App = (props) => {
         }
         try {
 
-            const response = await fetch(`${url}StartVisitWithThreads`, {
+            const response = await fetch(`${global.url}StartVisitWithThreads`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -163,7 +163,7 @@ const App = (props) => {
 
     const fetchVisitors = async () => {
         try {
-            const response = await fetch(`${url}GetAllVisitors`);
+            const response = await fetch(`${global.url}GetAllVisitors`);
             if (response.ok) {
                 const data = await response.json();
                 setVisitors(data);
@@ -213,7 +213,7 @@ const App = (props) => {
         setIsLoadingImage(true);
 
         try {
-            const response = await fetch(`${url}VisitorImages/${item.id}`);
+            const response = await fetch(`${global.url}VisitorImages/${item.id}`);
             if (response.ok) {
                 const data = await response.json();
                 setVisitorImage(data.image);
@@ -246,7 +246,7 @@ const App = (props) => {
                 name: `img${1 + 1}.${capturedImage.path.split('.').pop()}`,
             });
 
-            const response = await fetch(`${url}GetVisitorWithImage`, {
+            const response = await fetch(`${global.url}GetVisitorWithImage`, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },

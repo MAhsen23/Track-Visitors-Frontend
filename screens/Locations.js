@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import CustomPicker from '../components/custom_picker_without_search';
 import { FontFamily, Color } from '../GlobalStyles';
-import url from '../ApiUrl';
 import CheckBox from '@react-native-community/checkbox';
 import { Dropdown } from 'react-native-element-dropdown';
 
@@ -61,7 +60,7 @@ const MyScreen = (props) => {
 
     const fetchFloors = async () => {
         try {
-            const response = await fetch(`${url}GetAllFloors`);
+            const response = await fetch(`${global.url}GetAllFloors`);
             if (response.ok) {
                 const data = await response.json();
                 setFloors(data);
@@ -81,7 +80,7 @@ const MyScreen = (props) => {
             return;
         }
         try {
-            const response = await fetch(`${url}AddLocation`, {
+            const response = await fetch(`${global.url}AddLocation`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -119,7 +118,7 @@ const MyScreen = (props) => {
         }
         try {
 
-            const response = await fetch(`${url}/UpdateLocation/${editLocationId}`, {
+            const response = await fetch(`${global.url}/UpdateLocation/${editLocationId}`, {
                 method: 'PUT',
                 headers: {
                     Accept: 'application/json',

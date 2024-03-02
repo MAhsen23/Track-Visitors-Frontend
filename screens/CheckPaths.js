@@ -2,7 +2,6 @@ import * as React from "react";
 import { Text, Alert, StyleSheet, View, Image, Pressable, ScrollView } from "react-native";
 import { FontFamily, Color } from "../GlobalStyles";
 import CustomDropdown from "../components/multi_value_picker";
-import url from "../ApiUrl";
 import SingleValueCusDropdown from "../components/one_value_picker";
 
 const App = (props) => {
@@ -34,7 +33,7 @@ const App = (props) => {
 
     const fetchLocations = async () => {
         try {
-            const response = await fetch(`${url}GetAllLocations`);
+            const response = await fetch(`${global.url}GetAllLocations`);
             if (response.ok) {
                 const data = await response.json();
                 setLocations(data);
@@ -51,7 +50,7 @@ const App = (props) => {
 
     const fetchPaths = async () => {
         try {
-            const response = await fetch(`${url}GetLocationPaths`, {
+            const response = await fetch(`${global.url}GetLocationPaths`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',

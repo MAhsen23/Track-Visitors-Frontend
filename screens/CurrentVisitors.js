@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, FlatList, Pressable, Image } from 'react-native';
 import { FontFamily, Color } from "../GlobalStyles";
-import url from "../ApiUrl";
 import axios from 'axios';
 
 const App = (props) => {
@@ -41,7 +40,7 @@ const App = (props) => {
 
     const fetchCurrentVisitors = async () => {
         try {
-            const response = await axios.get(`${url}GetCurrentVisitors`, {
+            const response = await axios.get(`${global.url}GetCurrentVisitors`, {
                 timeout: 10000,
             });
             const data = await response.data;

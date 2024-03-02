@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, Alert, TouchableOpacity, StyleSheet, Modal, TextInput, Button, FlatList, ScrollView, Pressable } from 'react-native';
 import { FontFamily, Color } from '../GlobalStyles';
-import url from '../ApiUrl';
 
 
 const MatrixScreen = (props) => {
@@ -20,7 +19,7 @@ const MatrixScreen = (props) => {
 
     const fetchCameraMatrix = async () => {
         try {
-            const response = await fetch(`${url}GetCameraMatrix`);
+            const response = await fetch(`${global.url}GetCameraMatrix`);
             if (response.ok) {
                 const data = await response.json();
                 setAdjacencyMatrix(data.matrix);
@@ -39,7 +38,7 @@ const MatrixScreen = (props) => {
     const handleSave = async () => {
         if (editMode) {
             try {
-                const response = await fetch(`${url}UpdateMatrix`, {
+                const response = await fetch(`${global.url}UpdateMatrix`, {
                     method: 'POST',
                     headers: {
                         Accept: 'application/json',

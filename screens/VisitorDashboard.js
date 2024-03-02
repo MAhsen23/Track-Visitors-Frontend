@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, BackHandler, StatusBar, FlatList, StyleSheet, View, Image, TouchableOpacity, ScrollView, Pressable } from "react-native";
 import { Color, FontFamily } from "../GlobalStyles";
-import url from '../ApiUrl';
+
 
 
 const App = (props) => {
@@ -23,7 +23,7 @@ const App = (props) => {
 
     const fetchAlerts = async () => {
         try {
-            const response = await fetch(`${url}GetVisitorAlerts?id=${id}`);
+            const response = await fetch(`${global.url}GetVisitorAlerts?id=${id}`);
             if (response.ok) {
                 const data = await response.json();
                 console.log(data)

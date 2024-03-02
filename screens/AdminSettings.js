@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Text, StatusBar, StyleSheet, View, Image, Pressable, ScrollView, Alert } from "react-native";
 import { FontFamily, Color } from "../GlobalStyles";
-import url from '../ApiUrl';
 
 const App = (props) => {
 

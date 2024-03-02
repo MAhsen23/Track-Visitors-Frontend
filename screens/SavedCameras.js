@@ -13,7 +13,6 @@ import {
     VirtualizedList,
 } from 'react-native';
 import { FontFamily, Color } from '../GlobalStyles';
-import url from '../ApiUrl';
 import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
 
 const App = (props) => {
@@ -54,7 +53,7 @@ const App = (props) => {
 
     const fetchCamerasLocationsConnections = async () => {
         try {
-            const response = await fetch(`${url}GetAllCamerasLocationsConnections`);
+            const response = await fetch(`${global.url}GetAllCamerasLocationsConnections`);
             if (response.ok) {
                 const data = await response.json();
                 setCamerasDetails(data);
@@ -72,7 +71,7 @@ const App = (props) => {
 
     const deleteCamera = async (id) => {
         try {
-            const response = await fetch(`${url}DeleteCamera/${id}`, {
+            const response = await fetch(`${global.url}DeleteCamera/${id}`, {
                 method: 'DELETE',
                 headers: {
                     Accept: 'application/json',

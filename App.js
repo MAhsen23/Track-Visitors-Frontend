@@ -35,7 +35,6 @@ import CheckPaths from './screens/CheckPaths';
 import AdjacencyMatrix from './screens/AdjacencyMatrix'
 import RestrictLocation from './screens/RestrictLocation';
 import SearchVisitor from './screens/SearchVisitor'
-import MonitorDashboard from './screens/MonitorDashboard'
 import ReRoute from './screens/ReRoute';
 import DirectorDashboard from './screens/DirectorDashboard';
 import TodayVisitors from './screens/TodayVisitors';
@@ -44,6 +43,8 @@ import SearchTodayVisitors from './screens/SearchTodayVisitors'
 import BlockedVisitors from './screens/BlockedVisitors'
 import VisitorMode from './screens/VisitorMode'
 import VisitorDashboard from './screens/VisitorDashboard'
+import ConnectionUrl from './screens/ConnectionUrl';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -78,7 +79,7 @@ const App = (props) => {
                 <Stack.Screen name="GuardSettings" component={GuardSettings} options={{ headerTitle: 'Settings', headerShown: false }} />
                 <Stack.Screen name="VisitorMode" component={VisitorMode} options={{ headerTitle: 'Visitor Mode', headerShown: false }} />
 
-                <Stack.Screen name="MonitorDashboard" component={MonitorDashboard} options={{ headerTitle: 'Monitor Dashboard', headerShown: false }} />
+                <Stack.Screen name="ConnectionUrl" component={ConnectionUrl} options={{ headerTitle: 'Connection URL', headerShown: false }} />
 
 
                 <Stack.Screen name='AdminDashboard' component={AdminDashboard} options={{ headerTitle: 'Dashboard', headerShown: false }} />
